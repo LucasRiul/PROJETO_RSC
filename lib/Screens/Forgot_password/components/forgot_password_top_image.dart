@@ -12,22 +12,17 @@ class ForgotPasswordTopImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
-          "RECUPERAR SENHA",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: defaultPadding * 2),
         Row(
           children: [
             const Spacer(),
             Expanded(
               flex: 8,
-              child: SvgPicture.asset("assets/icons/login.svg"),
+              child: Image.asset("assets/images/signup.png"),
             ),
             const Spacer(),
           ],
         ),
-        SizedBox(height: defaultPadding * 2),
+        SizedBox(height: defaultPadding),
       ],
     );
   }

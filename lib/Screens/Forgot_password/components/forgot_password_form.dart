@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/Welcome/welcome_screen.dart';
 
-import '../../../components/already_have_an_account_acheck.dart';
 import '../../../constants.dart';
-import '../../Forgot_password/forgot_password_screen.dart';
-import '../../Signup/signup_screen.dart';
 
 class ForgotPasswordForm extends StatelessWidget {
   const ForgotPasswordForm({
@@ -40,18 +37,16 @@ class ForgotPasswordForm extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const WelcomeScreen()));
-              },
-              child: Text(
-                "Voltar ao início",
-                style: TextStyle(color: kPrimaryColor),
+            padding: const EdgeInsets.symmetric(vertical: defaultPadding),            
+              child: TextButton(
+                child: Text("Voltar ao início", style: TextStyle(color: kPrimaryColor),),
+                onPressed: () {
+                  Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const WelcomeScreen()));
+                },
               ),
             ),
-          ),
+          
         ],
       ),
     );

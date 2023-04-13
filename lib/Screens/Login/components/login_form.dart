@@ -53,7 +53,7 @@ class LoginForm extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: defaultPadding),
+          const sizebut(height: defaultPadding),
           AlreadyHaveAnAccountCheck(
             press: () {
               Navigator.push(
@@ -68,15 +68,17 @@ class LoginForm extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const ForgotPassword()));
-              },
+            child: TextButton(
               child: Text(
-                "Esqueceu a senha?",
+                "Esqueci a senha",
                 style: TextStyle(color: kPrimaryColor),
               ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ForgotPassword()));
+              },
             ),
           ),
         ],
