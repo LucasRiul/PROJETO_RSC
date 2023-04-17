@@ -22,7 +22,7 @@ class ForgotPassword extends StatelessWidget {
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     SizedBox(
                       width: 450,
                       child: ForgotPasswordForm(),
@@ -50,7 +50,7 @@ class MobileLoginScreen extends StatelessWidget {
       children: <Widget>[
         const ForgotPasswordTopImage(),
         Row(
-          children: const [
+          children: [
             Spacer(),
             Expanded(
               flex: 8,

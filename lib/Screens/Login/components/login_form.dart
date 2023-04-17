@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/Screens/Welcome/welcome_screen.dart';
 
 import '../../../components/already_have_an_account_acheck.dart';
 import '../../../constants.dart';
@@ -47,13 +48,22 @@ class LoginForm extends StatelessWidget {
           Hero(
             tag: "login_btn",
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return WelcomeScreen();
+                  },
+                ),
+              );
+              },
               child: Text(
                 "Entrar".toUpperCase(),
               ),
             ),
           ),
-          const sizebut(height: defaultPadding),
+          const SizedBox(height: defaultPadding),
           AlreadyHaveAnAccountCheck(
             press: () {
               Navigator.push(
