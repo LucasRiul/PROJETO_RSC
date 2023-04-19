@@ -39,7 +39,7 @@ class ForgotPasswordForm extends StatelessWidget {
                     builder: (BuildContext context) => AlertDialog(
                           title: const Text("Recuperação de Senha"),
                           content: Text(
-                              "Um email contendo instruções de recuperação de senha foi enviado para " + email.text),
+                              "Um email contendo instruções de recuperação de senha foi enviado para ${email.text}"),
                           actions: [
                             TextButton(
                               onPressed: () => Navigator.pop(context, 'OK'),
