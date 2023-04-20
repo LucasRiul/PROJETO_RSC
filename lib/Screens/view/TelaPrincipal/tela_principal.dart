@@ -38,7 +38,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.blueGrey.shade50,
-        selectedItemColor: Colors.blueAccent.shade700,
+        selectedItemColor: kPrimaryColor,
         showUnselectedLabels: true,
         selectedFontSize: 12,
         unselectedFontSize: 12,
@@ -47,16 +47,16 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
         items: [
           BottomNavigationBarItem(
               icon: Icon(
-                Icons.dashboard_outlined,
+                Icons.bar_chart_rounded,
                 color: kPrimaryColor,
               ),
-              label: ""),
+              label: "Dashboard"),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.search,
                 color: kPrimaryColor,
               ),
-              label: ""),
+              label: "Sobre"),
         ],
         //TROCA DE PÁGINA
         onTap: (index) {
