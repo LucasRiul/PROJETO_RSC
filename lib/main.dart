@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/Welcome/welcome_screen.dart';
+import 'package:flutter_auth/Screens/view/TelaPrincipal/Conteudo/widget_conteudo.dart';
 import 'package:flutter_auth/constants.dart';
 
 void main() => runApp(const MyApp());
@@ -13,6 +14,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Riul Spend Control',
+      routes: {
+        'conteudos': (context) => WidgetConteudo(),
+        'inicio': (context) => WelcomeScreen()
+      },
+      initialRoute: 'inicio',
       theme: ThemeData(
           primaryColor: kPrimaryColor,
           scaffoldBackgroundColor: Colors.white,

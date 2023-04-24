@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../components/already_have_an_account_acheck.dart';
 import '../../../constants.dart';
 import '../../Login/login_screen.dart';
@@ -17,8 +16,8 @@ class SignUpForm extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: TextFormField(
-              textInputAction: TextInputAction.done,
-              obscureText: true,
+              keyboardType: TextInputType.name,
+              textInputAction: TextInputAction.next,
               cursorColor: kPrimaryColor,
               decoration: InputDecoration(
                 hintText: "Seu nome",
@@ -37,9 +36,8 @@ class SignUpForm extends StatelessWidget {
             decoration: InputDecoration(
               hintText: "Seu email",
               prefixIcon: Padding(
-                padding: const EdgeInsets.all(defaultPadding),
-                child: Icon(Icons.email)
-              ),
+                  padding: const EdgeInsets.all(defaultPadding),
+                  child: Icon(Icons.email)),
             ),
           ),
           Padding(
@@ -59,7 +57,28 @@ class SignUpForm extends StatelessWidget {
           ),
           const SizedBox(height: defaultPadding / 2),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                        title: const Text("Cadastro realizado com sucesso!"),
+                        content: Text(
+                            "Agora sua vida financeira vai pra outro patamar\n" +
+                                '🤑😎'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const LoginScreen()));
+                            },
+                            child: const Text("OK"),
+                          )
+                        ],
+                      ));
+            },
             child: Text("Cadastrar".toUpperCase()),
           ),
           const SizedBox(height: defaultPadding),

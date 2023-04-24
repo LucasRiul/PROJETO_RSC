@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/view/TelaPrincipal/Dashboard/dashboard.dart';
-import 'package:flutter_auth/Screens/view/TelaPrincipal/Sobre/sobre.dart';
+import 'package:flutter_auth/Screens/view/TelaPrincipal/Conteudo/conteudo.dart';
 import 'package:flutter_auth/constants.dart';
 import 'package:flutter/foundation.dart';
 
@@ -21,12 +21,18 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("RSC"),
+        centerTitle: true,
+        backgroundColor: kPrimaryColor,
+        automaticallyImplyLeading: false,
+      ),
       //CORPO
       body: PageView(
         controller: paginaControlador,
         children: [
           Dashboard(),
-          Sobre(),
+          Conteudo(),
         ],
         onPageChanged: (index) {
           setState(() {
@@ -56,7 +62,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                 Icons.search,
                 color: kPrimaryColor,
               ),
-              label: "Sobre"),
+              label: "Conteúdo"),
         ],
         //TROCA DE PÁGINA
         onTap: (index) {
