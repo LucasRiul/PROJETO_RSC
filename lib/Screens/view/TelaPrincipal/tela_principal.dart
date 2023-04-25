@@ -5,6 +5,7 @@ import 'package:flutter_auth/Screens/view/TelaPrincipal/Dashboard/dashboard.dart
 import 'package:flutter_auth/Screens/view/TelaPrincipal/Conteudo/conteudo.dart';
 import 'package:flutter_auth/constants.dart';
 import 'package:flutter/foundation.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TelaPrincipal extends StatefulWidget {
   const TelaPrincipal({Key? key}) : super(key: key);
@@ -21,11 +22,46 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(
+      //   title: Row(children: [
+      //     Image.asset(
+      //       'assets/images/LogoRSC.png',
+      //       fit: BoxFit.contain,
+      //       height: 80,
+      //     )
+      //   ]),
+      //   backgroundColor: kPrimaryColor,
+      //   automaticallyImplyLeading: false,
+      // ),
       appBar: AppBar(
-        title: Text("RSC"),
-        centerTitle: true,
         backgroundColor: kPrimaryColor,
         automaticallyImplyLeading: false,
+        title: Row(
+          children: [
+            Expanded(
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.person,
+                    size: 30,
+                  ),
+                  Text(
+                    "usuarioLogado",
+                    style: GoogleFonts.raleway(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Image.asset(
+              'assets/images/LogoRSC.png',
+              fit: BoxFit.contain,
+              height: 90,
+            ),
+          ],
+        ),
       ),
       //CORPO
       body: PageView(
@@ -59,7 +95,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
               label: "Dashboard"),
           BottomNavigationBarItem(
               icon: Icon(
-                Icons.search,
+                Icons.book_outlined,
                 color: kPrimaryColor,
               ),
               label: "Conteúdo"),

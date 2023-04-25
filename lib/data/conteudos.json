@@ -2,31 +2,129 @@
     {
         "id": 1,
         "foto": "assets/images/eu.JPG",
+        "fotoDescricao": "Autor: Lucas Riul Martins",
         "descricao": "O objetivo deste aplicativo é auxiliar na organização financeira do usuário, facilitando seu controle de gastos e ganhos",
-        "tema": "Sobre"
+        "tema": "Sobre o aplicativo e autor",
+        "link": "https://www.linkedin.com/in/lucas-riul-martins-038a5a1b4/"
     },
     {
         "id": 2,
-        "foto": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        "descricao": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-        "tema": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        "foto": "assets/images/orcamento_familiar.jpg",
+        "fotoDescricao": "Descrição: Relatório de finanças e calculadora",
+        "descricao": "Aprenda a fazer um orçamento mensal para controlar as finanças da sua família. Anote todas as despesas e receitas, estabeleça metas e acompanhe os gastos ao longo do mês.",
+        "tema": "Orçamento familiar",
+        "link": "https://www.suno.com.br/artigos/orcamento-familiar/ "
     },
     {
         "id": 3,
-        "foto": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        "descricao": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-        "tema": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        "foto": "assets/images/poupanca.jpg",
+        "fotoDescricao": "Descrição: Cofrinho de porco",
+        "descricao": "Descubra a importância de poupar dinheiro para alcançar seus objetivos financeiros. Crie um plano de economia, estabeleça objetivos, defina um valor fixo para guardar mensalmente e escolha uma instituição financeira para abrir uma conta de poupança.",
+        "tema": "Poupança",
+        "link": "https://www.infomoney.com.br/guias/poupanca/"
     },
     {
         "id": 4,
-        "foto": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        "descricao": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-        "tema": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        "foto": "assets/images/investimentos.jpg",
+        "fotoDescricao": "Descrição: Gráfico de uma ação",
+        "descricao": "Conheça os principais tipos de investimentos e como escolher o melhor para você. Avalie o seu perfil de investidor, analise os riscos e os rendimentos de cada opção, estude o mercado financeiro e faça uma escolha segura e rentável.",
+        "tema": "Investimentos",
+        "link": "https://conteudos.xpi.com.br/aprenda-a-investir/relatorios/investimento-para-iniciantes/"
     },
     {
         "id": 5,
-        "foto": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        "descricao": "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-        "tema": "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        "foto": "assets/images/planejamento_financeiro.jpg",
+        "fotoDescricao": "Descrição: Escada financeira",
+        "descricao": "Saiba como fazer um planejamento financeiro para alcançar a independência financeira. Faça um diagnóstico da sua situação atual, defina objetivos de curto, médio e longo prazo, crie um plano de ação, monitore os resultados e ajuste o seu planejamento conforme necessário.",
+        "tema": "Planejamento financeiro",
+        "link": "https://riconnect.rico.com.vc/blog/planejamento-financeiro-pessoal-poderoso/"
+    },
+    {
+        "id": 6,
+        "foto": "assets/images/controle_de_gastos.jpg",
+        "fotoDescricao": "Descrição: Compras descontroladas no shopping",
+        "descricao": "Aprenda a controlar seus gastos e evitar dívidas desnecessárias. Registre todas as suas despesas, estabeleça um limite mensal para cada categoria, evite gastos impulsivos e priorize as despesas essenciais.'",
+        "tema": "Controle de gastos",
+        "link": "https://blog.toroinvestimentos.com.br/educacao-financeira/controle-de-gastos-pessoais"
+    },
+    {
+        "id": 7,
+        "foto": "assets/images/cartao_de_credito.png",
+        "fotoDescricao": "Descrição: Cartões de crédito",
+        "descricao": "Entenda como funciona o cartão de crédito e como usá-lo de forma consciente. Controle os gastos realizados com o cartão, evite o pagamento mínimo da fatura, escolha um cartão com benefícios adequados às suas necessidades e leia o contrato antes de assinar.",
+        "tema": "Cartão de crédito",
+        "link": "https://www.infomoney.com.br/guias/cartao-de-credito/"
+    },
+    {
+        "id": 8,
+        "foto": "assets/images/educacao_financeira_para_criancas.png",
+        "fotoDescricao": "Descrição: Crianças aprendendo sobre dinheiro",
+        "descricao": "Ensine seus filhos a lidar com dinheiro desde cedo. Explique a importância de economizar, dê exemplos práticos, estabeleça mesadas, incentive a poupança e envolva as crianças nas decisões financeiras da família.",
+        "tema": "Educação financeira para crianças",
+        "link": "https://blog.bancointer.com.br/educacao-financeira-para-criancas"
+    },
+    {
+        "id": 9,
+        "foto": "assets/images/financas_para_autonomos.jpg",
+        "fotoDescricao": "Descrição: Profissional autônomo",
+        "descricao": "Saiba como organizar suas finanças como autônomo. Faça um planejamento mensal de gastos e receitas, separe o dinheiro pessoal do dinheiro do negócio, mantenha uma reserva de emergência, tenha um controle rigoroso dos pagamentos e das cobranças e planeje investimentos a curto e longo prazo.",
+        "tema": "Finanças para autônomos",
+        "link": "https://www.suno.com.br/artigos/autonomo/"
+    },
+    {
+        "id": 10,
+        "foto": "assets/images/financas_pessoais.jpeg",
+        "fotoDescricao": "Descrição: Contas de gastos e ganhos",
+        "descricao": "Aprenda a cuidar das suas finanças pessoais de forma responsável e eficiente. Conheça seus gastos e receitas, estabeleça um orçamento, controle seus gastos, evite dívidas, poupe dinheiro e invista para atingir seus objetivos financeiros a longo prazo.",
+        "tema": "Finanças pessoais",
+        "link": "https://riconnect.rico.com.vc/blog/financas-pessoais/"
+    },
+    {
+        "id": 11,
+        "foto": "assets/images/seguros.jpg",
+        "fotoDescricao": "Descrição: A importância do seguro",
+        "descricao": "Descubra a importância dos seguros para proteger suas finanças. Avalie suas necessidades de proteção, escolha os tipos de seguros adequados para você, pesquise os preços e as condições de cada seguradora, e faça uma escolha consciente e segura.",
+        "tema": "Seguros",
+        "link": "https://blog.humberseguros.com.br/post/por-que-contratar-um-seguro/"
+    },
+    {
+        "id": 12,
+        "foto": "assets/images/financas_para_casais.png",
+        "fotoDescricao": "Descrição: Casal organizando suas finanças",
+        "descricao": "Aprenda a lidar com as finanças em casal. Estabeleça um orçamento conjunto, compartilhe as despesas, evite dívidas desnecessárias, mantenha a transparência nas decisões financeiras, respeite os limites de cada um e faça planos financeiros em conjunto.",
+        "tema": "Finanças para casais",
+        "link": "https://www.infomoney.com.br/minhas-financas/planejamento-financeiro-como-organizar-as-financas-do-casal/"
+    },
+    {
+        "id": 13,
+        "foto": "assets/images/impostos.jpg",
+        "fotoDescricao": "Descrição: Não é o leão da Warner Bros",
+        "descricao": "Conheça as principais obrigações tributárias e saiba como pagar impostos de forma correta. Entenda como funciona o sistema tributário brasileiro, verifique as alíquotas e prazos de cada imposto, e evite problemas com o fisco.",
+        "tema": "Impostos",
+        "link": "https://neon.com.br/aprenda/economizar-dinheiro/planejamento-tributario/"
+    },
+    {
+        "id": 14,
+        "foto": "assets/images/credito_pessoal.png",
+        "fotoDescricao": "Descrição: Empréstimo",
+        "descricao": "Entenda como funciona o crédito pessoal e use-o com responsabilidade. Avalie suas necessidades financeiras, escolha um crédito com juros e condições adequados, planeje a quitação das parcelas e evite dívidas desnecessárias.",
+        "tema": "Crédito pessoal",
+        "link": "https://www.serasa.com.br/ecred/blog/o-que-e-credito-pessoal-entenda-tudo-sobre-esse-tipo-de-emprestimo/"
+    },
+    {
+        "id": 15,
+        "foto": "assets/images/aposentadoria.jpg",
+        "fotoDescricao": "Descrição: Idosos tirando aquele lazer",
+        "descricao": "Planeje suas finanças para a aposentadoria desde cedo. Conheça as opções de planos de previdência privada, faça simulações de investimento, escolha um plano adequado para suas necessidades, e invista para garantir um futuro financeiro seguro.",
+        "tema": "Aposentadoria",
+        "link": "https://forbes.com.br/forbes-money/2023/01/eduardo-mira-sete-dicas-para-o-planejamento-da-aposentadoria/"
+    },
+    {
+        "id": 16,
+        "foto": "assets/images/consórcio.jpg",
+        "fotoDescricao": "Descrição: Como funciona o consórcio",
+        "descricao": "Entenda como funciona o consórcio e use-o de forma estratégica. Avalie suas necessidades financeiras, escolha um consórcio com parcelas e prazos adequados, e planeje a aquisição do bem ou serviço que você deseja sem comprometer suas finanças pessoais.",
+        "tema": "Consórcio",
+        "link": "https://exame.com/invest/guia/o-que-e-consorcio-e-como-funciona-essa-modalidade-de-aquisicao/"
     }
 ]
