@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth/controller/login_controller.dart';
 import '../../../components/already_have_an_account_acheck.dart';
 import '../../../constants.dart';
 import '../../Login/login_screen.dart';
 
+// ignore: must_be_immutable
 class SignUpForm extends StatelessWidget {
-  const SignUpForm({
+  var txtNome = TextEditingController();
+  var txtEmail = TextEditingController();
+  var txtSenha = TextEditingController();
+  SignUpForm({
     Key? key,
   }) : super(key: key);
 
@@ -16,6 +21,7 @@ class SignUpForm extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: TextFormField(
+              controller: txtNome,
               keyboardType: TextInputType.name,
               textInputAction: TextInputAction.next,
               cursorColor: kPrimaryColor,
@@ -29,6 +35,7 @@ class SignUpForm extends StatelessWidget {
             ),
           ),
           TextFormField(
+            controller: txtEmail,
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
             cursorColor: kPrimaryColor,
@@ -43,6 +50,7 @@ class SignUpForm extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: TextFormField(
+              controller: txtSenha,
               textInputAction: TextInputAction.done,
               obscureText: true,
               cursorColor: kPrimaryColor,
@@ -58,26 +66,8 @@ class SignUpForm extends StatelessWidget {
           const SizedBox(height: defaultPadding / 2),
           ElevatedButton(
             onPressed: () {
-              showDialog<String>(
-                  context: context,
-                  builder: (BuildContext context) => AlertDialog(
-                        title: const Text("Cadastro realizado com sucesso!"),
-                        content: Text(
-                            "Agora sua vida financeira vai pra outro patamar\n" +
-                                '🤑😎'),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const LoginScreen()));
-                            },
-                            child: const Text("OK"),
-                          )
-                        ],
-                      ));
+              LoginController().criarConta(
+                  context, txtNome.text, txtEmail.text, txtSenha.text);
             },
             child: Text("Cadastrar".toUpperCase()),
           ),

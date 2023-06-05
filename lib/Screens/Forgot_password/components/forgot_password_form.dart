@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/Welcome/welcome_screen.dart';
+import 'package:flutter_auth/controller/login_controller.dart';
 
 import '../../../constants.dart';
 
@@ -34,19 +35,7 @@ class ForgotPasswordForm extends StatelessWidget {
             tag: "enviar_btn",
             child: ElevatedButton(
               onPressed: () {
-                showDialog<String>(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                          title: const Text("Recuperação de Senha"),
-                          content: Text(
-                              "Um email contendo instruções de recuperação de senha foi enviado para ${email.text}"),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, 'OK'),
-                              child: const Text("OK"),
-                            )
-                          ],
-                        ));
+                LoginController().esqueceuSenha(context, email.text);
               },
               child: Text(
                 "Enviar".toUpperCase(),

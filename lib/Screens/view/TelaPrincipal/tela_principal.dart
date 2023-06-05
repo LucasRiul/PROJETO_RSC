@@ -5,7 +5,9 @@ import 'package:flutter_auth/Screens/view/TelaPrincipal/Dashboard/dashboard.dart
 import 'package:flutter_auth/Screens/view/TelaPrincipal/Conteudo/conteudo.dart';
 import 'package:flutter_auth/constants.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_auth/controller/login_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'Adicionar/adicionar.dart';
 
 class TelaPrincipal extends StatefulWidget {
   const TelaPrincipal({Key? key}) : super(key: key);
@@ -39,20 +41,36 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
         title: Row(
           children: [
             Expanded(
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.person,
-                    size: 30,
-                  ),
-                  Text(
-                    "usuarioLogado",
-                    style: GoogleFonts.raleway(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
+              child: FutureBuilder<String>(
+                future: LoginController().usuarioLogado(),
+                builder:
+                    (BuildContext context, AsyncSnapshot<String> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    // Se ainda estiver carregando, exiba um widget de carregamento ou uma mensagem de espera.
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    // Se ocorrer um erro, exiba uma mensagem de erro.
+                    return Text('Erro: ${snapshot.error}');
+                  } else {
+                    // Se tudo estiver correto, exiba o nome do usuário.
+                    return Row(
+                      children: [
+                        Icon(
+                          Icons.person,
+                          size: 30,
+                        ),
+                        Text(
+                          snapshot.data?.toUpperCase() ??
+                              '', // Acessa o valor retornado pela Future.
+                          style: GoogleFonts.raleway(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                },
               ),
             ),
             Image.asset(
@@ -68,6 +86,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
         controller: paginaControlador,
         children: [
           Dashboard(),
+          Adicionar(),
           Conteudo(),
         ],
         onPageChanged: (index) {
@@ -93,6 +112,14 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                 color: kPrimaryColor,
               ),
               label: "Dashboard"),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.add_circle_rounded,
+              color: kPrimaryColor,
+              size: 50,
+            ),
+            label: "",
+          ),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.book_outlined,
