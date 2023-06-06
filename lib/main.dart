@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/Welcome/welcome_screen.dart';
 import 'package:flutter_auth/Screens/view/TelaPrincipal/Conteudo/widget_conteudo.dart';
 import 'package:flutter_auth/Screens/view/TelaPrincipal/Dashboard/dashboard.dart';
+import 'package:flutter_auth/Screens/view/TelaPrincipal/tela_principal.dart';
 import 'package:flutter_auth/constants.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -25,11 +26,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Riul Spend Control',
-      initialRoute: 'inicio',
+      initialRoute: 'dashboard',
       routes: {
         'inicio': (context) => WelcomeScreen(),
         'conteudos': (context) => WidgetConteudo(),
-        'dashboard': (context) => Dashboard()
+        'dashboard': (context) => TelaPrincipal()
       },
       theme: ThemeData(
           primaryColor: kPrimaryColor,

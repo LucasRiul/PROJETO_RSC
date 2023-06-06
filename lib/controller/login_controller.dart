@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -123,5 +125,16 @@ class LoginController {
       },
     );
     return usuario;
+  }
+
+  void alterarNome(context, String nomeUpdate) {
+    FirebaseFirestore.instance
+        .collection('usuarios')
+        .doc(idUsuario())
+        .update({'nome': nomeUpdate}).then((value) {
+      sucesso(context, 'Nome alterado com sucesso');
+    }).catchError((e) {
+      erro(context, 'ERRO: ${e.code.toString()}');
+    });
   }
 }

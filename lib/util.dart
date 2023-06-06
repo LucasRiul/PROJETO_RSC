@@ -7,7 +7,7 @@ import 'package:flutter_auth/constants.dart';
 void erro(context, String msg) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      backgroundColor: Colors.redAccent.withOpacity(0.4),
+      backgroundColor: Colors.redAccent,
       content: Text(
         msg,
         style: const TextStyle(color: Colors.white),

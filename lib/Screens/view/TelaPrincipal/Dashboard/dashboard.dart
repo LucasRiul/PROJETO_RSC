@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:flutter_auth/Screens/view/TelaPrincipal/Dashboard/listaMovimentacoes.dart';
 import 'package:flutter_auth/constants.dart';
 
 class Dashboard extends StatefulWidget {
@@ -69,14 +70,64 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Padding(
-      padding: const EdgeInsets.all(32.0),
-      child: Center(
-        child: charts.BarChart(
-          seriesList,
-          animate: true,
+      body: Padding(
+        padding: const EdgeInsets.all(32.0),
+        child: Column(
+          children: [
+            Row(
+                children: [
+                  Text(
+                    'Movimentações do ano',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Tooltip(
+                    message: 'Verde: Ganhos\nVermelho: Gastos',
+                    child: Icon(Icons.info),
+                  ),
+                ],
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center),
+            Expanded(
+              child: Center(
+                child: charts.BarChart(
+                  seriesList,
+                  animate: true,
+                  behaviors: [
+                    charts.ChartTitle(
+                      'Meses',
+                      behaviorPosition: charts.BehaviorPosition.bottom,
+                      titleOutsideJustification:
+                          charts.OutsideJustification.middleDrawArea,
+                      innerPadding: 10,
+                    ),
+                    charts.ChartTitle(
+                      "Valor R\$",
+                      behaviorPosition: charts.BehaviorPosition.start,
+                      titleOutsideJustification:
+                          charts.OutsideJustification.middleDrawArea,
+                      titleStyleSpec: charts.TextStyleSpec(fontSize: 14),
+                    ),
+                    // charts.SeriesLegend(
+                    //   position: charts.BehaviorPosition.end,
+                    //   horizontalFirst: false,
+                    //   desiredMaxRows: 10,
+                    //   cellPadding: EdgeInsets.only(right: 2.0, bottom: 4.0),
+                    // ),
+                  ],
+                ),
+              ),
+            ),
+            // Row(
+            //   children: [
+            //     ListaMovimentacoes(),
+            //   ],
+            // )
+          ],
         ),
       ),
-    ));
+    );
   }
 }
