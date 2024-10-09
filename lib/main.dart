@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/Welcome/welcome_screen.dart';
 import 'package:flutter_auth/Screens/view/TelaPrincipal/Conteudo/widget_conteudo.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_auth/Screens/view/TelaPrincipal/tela_principal.dart';
 import 'package:flutter_auth/constants.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:device_preview/device_preview.dart';
 
 // void main() => runApp(const MyApp());
 
@@ -14,7 +17,10 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const MyApp());
+  runApp(DevicePreview(
+    enabled: true,
+    builder: (context) => MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../../model/conteudos.dart';
+import 'package:flutter_auth/model/conteudos.dart';
 
 class Conteudo extends StatefulWidget {
   const Conteudo({super.key});

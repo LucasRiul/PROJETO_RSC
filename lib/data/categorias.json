@@ -1,0 +1,80 @@
+[
+    {
+        "id": 1,
+        "Nome": "Casa",
+        "Cor": "#41c7e8",
+        "Icone": "house_outlined"
+    },
+    {
+        "id": 2,
+        "Nome": "Contas e serviços",
+        "Cor": "#f27c41",
+        "Icone": "account_balance_wallet_outlined"
+    },
+    {
+        "id": 3,
+        "Nome": "Transporte",
+        "Cor": "#4141f2",
+        "Icone": "directions_car_outlined"
+    },
+    {
+        "id": 4,
+        "Nome": "Comida e bebida",
+        "Cor": "#f24141",
+        "Icone": "restaurant_outlined"
+    },
+    {
+        "id": 5,
+        "Nome": "Supermercado",
+        "Cor": "#41f29a",
+        "Icone": "shopping_cart_outlined"
+    },
+    {
+        "id": 6,
+        "Nome": "Compras",
+        "Cor": "#c941f2",
+        "Icone": "wallet_giftcard_outlined"
+    },
+    {
+        "id": 7,
+        "Nome": "Financiamentos",
+        "Cor": "#ddf241",
+        "Icone": "currency_exchange_outlined"
+    },
+    {
+        "id": 8,
+        "Nome": "Educação",
+        "Cor": "#41daf2",
+        "Icone": "book_outlined"
+    },
+    {
+        "id": 9,
+        "Nome": "Saúde",
+        "Cor": "#41f2da",
+        "Icone": "healing_outlined"
+    },
+    {
+        "id": 10,
+        "Nome": "Investimentos",
+        "Cor": "#f2a241",
+        "Icone": "business_outlined"
+    },
+    {
+        "id": 11,
+        "Nome": "Outros",
+        "Cor": "#f241c6",
+        "Icone": "space_dashboard_outlined"
+    },
+    {
+        "id": 12,
+        "Nome": "Renda fixa",
+        "Cor": "#17fc5f",
+        "Icone": "currency_exchange_outlined"
+    },
+    {
+        "id": 13,
+        "Nome": "Ganhos extras",
+        "Cor": "#35ff03",
+        "Icone": "attach_money_outlined"
+    }
+]

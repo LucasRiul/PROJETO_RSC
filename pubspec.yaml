@@ -27,10 +27,14 @@ dependencies:
   google_fonts: ^4.0.3
   url_launcher: ^6.1.10
   syncfusion_flutter_charts: ^21.1.41
-  charts_flutter: ^0.12.0
-  firebase_core: ^2.13.1
-  cloud_firestore: ^4.8.0
-  firebase_auth: ^4.6.2
+  firebase_core: ^2.24.2
+  cloud_firestore: ^4.14.0
+  firebase_auth: ^4.16.0
+  custom_radio_grouped_button: ^2.2.1
+  currency_textfield: ^4.12.0
+  currency_text_input_formatter: ^2.1.8
+  easy_mask: ^2.0.1
+  device_preview: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -53,6 +57,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - lib/data/conteudos.json
+    - lib/data/categorias.json
   #  - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
