@@ -145,15 +145,15 @@ class _DashboardState extends State<Dashboard> {
 
   _converterMes(mes) {
     mes = mes.toString().toLowerCase();
-    if (mes == 'janeiro') return '1';
-    if (mes == 'fevereiro') return '2';
-    if (mes == 'março') return '3';
-    if (mes == 'abril') return '4';
-    if (mes == 'maio') return '5';
-    if (mes == 'junho') return '6';
-    if (mes == 'julho') return '7';
-    if (mes == 'agosto') return '8';
-    if (mes == 'setembro') return '9';
+    if (mes == 'janeiro') return '01';
+    if (mes == 'fevereiro') return '02';
+    if (mes == 'março') return '03';
+    if (mes == 'abril') return '04';
+    if (mes == 'maio') return '05';
+    if (mes == 'junho') return '06';
+    if (mes == 'julho') return '07';
+    if (mes == 'agosto') return '08';
+    if (mes == 'setembro') return '09';
     if (mes == 'outubro') return '10';
     if (mes == 'novembro') return '11';
     if (mes == 'dezembro') return '12';
