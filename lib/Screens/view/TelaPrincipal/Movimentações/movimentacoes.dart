@@ -243,15 +243,21 @@ class _MovimentacoesState extends State<Movimentacoes> {
                 actionsPadding: EdgeInsets.fromLTRB(20, 0, 20, 10),
                 actions: [
                   ElevatedButton(
-                    child: Text("salvar"),
+                    child: Text(
+                      "salvar",
+                      style: TextStyle(color: Colors.white),
+                    ),
                     onPressed: () {
+                      var dataSplit = data.text.split('/');
+                      var mes = dataSplit[1];
+                      var ano = dataSplit[2];
                       var t = Movimentacao(
                         LoginController().idUsuario(),
                         txtTipoMovimentacao,
-                        valor.text,
+                        valor.text.split(' ')[1],
                         data.text,
-                        data.toString().split('/')[1],
-                        data.toString().split('/')[2],
+                        mes,
+                        ano,
                         descricao.text,
                         categoriaSelecionada.toString(),
                       );
@@ -305,7 +311,10 @@ class _MovimentacoesState extends State<Movimentacoes> {
           content: Text("Tem certeza que deseja excluir esta movimentação?"),
           actions: [
             ElevatedButton(
-              child: Text("Excluir"),
+              child: Text(
+                "Excluir",
+                style: TextStyle(color: Colors.white),
+              ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red, // Cor do botão de exclusão
               ),
@@ -354,7 +363,8 @@ class _MovimentacoesState extends State<Movimentacoes> {
                               : Icon(Icons.keyboard_double_arrow_up,
                                   color: Colors.green),
                           title: Text(
-                              item['valor'].toString() +
+                              'R\$' +
+                                  item['valor'].toString() +
                                   ' - ' +
                                   item['categoria'],
                               overflow: TextOverflow.ellipsis),
@@ -398,7 +408,10 @@ class _MovimentacoesState extends State<Movimentacoes> {
         onPressed: () {
           adicionarMovimentacao(context);
         },
-        child: Icon(Icons.add),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
         backgroundColor: kPrimaryColor,
       ),
     );

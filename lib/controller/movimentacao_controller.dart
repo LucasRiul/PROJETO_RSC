@@ -31,6 +31,16 @@ class MovimentacaoController {
         .orderBy('data', descending: true);
   }
 
+  listarComFiltro(String mes, String ano) {
+    return FirebaseFirestore.instance
+        .collection('movimentacao')
+        .where('uid', isEqualTo: LoginController().idUsuario())
+        .where('mes', isEqualTo: mes)
+        .where('ano', isEqualTo: ano)
+        .orderBy('data', descending: true)
+        .snapshots();
+  }
+
   //
   // ATUALIZAR
   //

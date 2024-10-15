@@ -34,7 +34,9 @@ dependencies:
   currency_textfield: ^4.12.0
   currency_text_input_formatter: ^2.1.8
   easy_mask: ^2.0.1
-  device_preview: ^1.1.0
+  device_preview: ^1.2.0
+  collection: ^1.17.1
+  fl_chart: ^0.65.0
 
 dev_dependencies:
   flutter_test:

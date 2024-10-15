@@ -69,7 +69,10 @@ class SignUpForm extends StatelessWidget {
               LoginController().criarConta(
                   context, txtNome.text, txtEmail.text, txtSenha.text);
             },
-            child: Text("Cadastrar".toUpperCase()),
+            child: Text(
+              "Cadastrar".toUpperCase(),
+              style: TextStyle(color: Colors.white),
+            ),
           ),
           const SizedBox(height: defaultPadding),
           AlreadyHaveAnAccountCheck(

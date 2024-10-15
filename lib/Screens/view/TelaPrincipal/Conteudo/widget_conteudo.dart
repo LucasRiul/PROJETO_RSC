@@ -20,48 +20,11 @@ class _WidgetConteudoState extends State<WidgetConteudo> {
   Widget build(BuildContext context) {
     var obj = ModalRoute.of(context)!.settings.arguments as Conteudos;
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Row(children: [
-      //     Icon(
-      //       Icons.person,
-      //       size: 2,
-      //     ),
-      //     Text(
-      //       "usuarioLogado",
-      //       style:
-      //           GoogleFonts.raleway(fontSize: 12, fontWeight: FontWeight.bold),
-      //     ),
-      //     Image.asset(
-      //       'assets/images/LogoRSC.png',
-      //       fit: BoxFit.contain,
-      //       height: 80,
-      //     )
-      //   ]),
-      //   backgroundColor: kPrimaryColor,
-      //   automaticallyImplyLeading: false,
-      // ),
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
         automaticallyImplyLeading: false,
         title: Row(
           children: [
-            Expanded(
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.person,
-                    size: 30,
-                  ),
-                  Text(
-                    "usuarioLogado",
-                    style: GoogleFonts.raleway(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
             Image.asset(
               'assets/images/LogoRSC.png',
               fit: BoxFit.contain,
@@ -125,6 +88,7 @@ class _WidgetConteudoState extends State<WidgetConteudo> {
         backgroundColor: kPrimaryColor,
         child: Icon(
           Icons.keyboard_return,
+          color: Colors.white,
         ),
         onPressed: () {
           //Voltar para TelaPrincipal

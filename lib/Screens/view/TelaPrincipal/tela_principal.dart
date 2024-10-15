@@ -23,7 +23,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
   //Índice da página que está sendo exibida
   var paginaAtual = 0;
   var nomeUpdate = TextEditingController();
-  
+
   //Responsável pela alteração (navegação) entre as páginas
   var paginaControlador = PageController();
   @override
@@ -52,6 +52,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
               height: 90,
             ),
             IconButton(
+              color: Colors.white,
               icon: Icon(
                 Icons.exit_to_app_outlined,
                 size: 25,

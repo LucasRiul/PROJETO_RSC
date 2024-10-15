@@ -58,6 +58,7 @@ class LoginForm extends StatelessWidget {
               },
               child: Text(
                 "Entrar".toUpperCase(),
+                style: TextStyle(color: Colors.white),
               ),
             ),
           ),

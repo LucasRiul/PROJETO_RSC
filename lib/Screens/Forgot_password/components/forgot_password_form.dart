@@ -39,6 +39,7 @@ class ForgotPasswordForm extends StatelessWidget {
               },
               child: Text(
                 "Enviar".toUpperCase(),
+                style: TextStyle(color: Colors.white),
               ),
             ),
           ),
