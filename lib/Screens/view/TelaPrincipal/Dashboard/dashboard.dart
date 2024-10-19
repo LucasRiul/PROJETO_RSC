@@ -1,7 +1,6 @@
-import 'dart:js_interop';
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_auth/constants.dart';
 import 'package:flutter_auth/controller/login_controller.dart';
 import 'package:intl/intl.dart'; // Para pegar o mês e ano atual
 import 'package:collection/collection.dart';
@@ -12,11 +11,15 @@ class Dashboard extends StatefulWidget {
   _DashboardState createState() => _DashboardState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
+  int _touchedIndex1 = 0;
+  int _touchedIndex2 = 0;
+  late TabController _tabController;
+
   String selectedMonth =
       DateFormat.MMMM('pt_BR').format(DateTime.now()).toLowerCase();
   String selectedYear = DateTime.now().year.toString(); // Ano atual
-  Future<List<Map<String, dynamic>>>? futureGastos;
+  Future<List<Map<String, dynamic>>>? futureMovimentacoes;
 
   List<String> months = [
     'janeiro',
@@ -37,7 +40,17 @@ class _DashboardState extends State<Dashboard> {
   void initState() {
     super.initState();
     // Inicia o FutureBuilder com o mês e ano atuais
-    futureGastos = listarComFiltro(selectedMonth, selectedYear);
+    futureMovimentacoes = listarComFiltro(selectedMonth, selectedYear);
+    _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) {
+        // Reinicialize os índices de toque ao trocar de aba
+        setState(() {
+          _touchedIndex1 = -1;
+          _touchedIndex2 = -1;
+        });
+      }
+    });
   }
 
   Future<List<Map<String, dynamic>>> listarComFiltro(
@@ -45,9 +58,7 @@ class _DashboardState extends State<Dashboard> {
     mes = _converterMes(mes);
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('movimentacao')
-        .where('uid',
-            isEqualTo: LoginController()
-                .idUsuario()) // Use o método correto para pegar o UID
+        .where('uid', isEqualTo: LoginController().idUsuario())
         .where('mes', isEqualTo: mes)
         .where('ano', isEqualTo: ano)
         .get();
@@ -62,7 +73,6 @@ class _DashboardState extends State<Dashboard> {
   }
 
   IconData _mapIcon(String iconName) {
-    // Mapeamento dos nomes dos ícones para os ícones reais do Flutter
     switch (iconName) {
       case "Casa":
         return Icons.house_outlined;
@@ -86,13 +96,16 @@ class _DashboardState extends State<Dashboard> {
         return Icons.business_outlined;
       case "Outros":
         return Icons.space_dashboard_outlined;
+      case "Renda fixa":
+        return Icons.attach_money_outlined;
+      case "Ganhos extras":
+        return Icons.currency_exchange_outlined;
       default:
         return Icons.category_outlined; // Ícone padrão
     }
   }
 
   Color _mapColor(String categoria) {
-    // Mapeamento dos nomes dos ícones para os ícones reais do Flutter
     String cor;
     switch (categoria) {
       case "Casa":
@@ -114,7 +127,7 @@ class _DashboardState extends State<Dashboard> {
         cor = "#c941f2";
         break;
       case "Financiamentos":
-        cor = "#ddf241";
+        cor = "#f2d13f";
         break;
       case "Educação":
         cor = "#41daf2";
@@ -128,18 +141,23 @@ class _DashboardState extends State<Dashboard> {
       case "Outros":
         cor = "#f241c6";
         break;
+      case "Renda fixa":
+        cor = "#63b063";
+        break;
+      case "Ganhos extras":
+        cor = "#21825e";
+        break;
       default:
         cor = "#f0f0f0";
         break;
     }
-
     return Color(int.parse('0xff${cor.substring(1)}'));
   }
 
   // Atualiza o filtro ao clicar no ícone de pesquisa
   void _atualizarFiltro() {
     setState(() {
-      futureGastos = listarComFiltro(selectedMonth, selectedYear);
+      futureMovimentacoes = listarComFiltro(selectedMonth, selectedYear);
     });
   }
 
@@ -163,9 +181,22 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
         child: Column(
           children: [
+            TabBar(
+              controller: _tabController,
+              labelColor: kPrimaryColor,
+              indicatorColor: kPrimaryColor,
+              unselectedLabelColor: Colors.grey,
+              tabs: [
+                Tab(text: 'Gastos'),
+                Tab(text: 'Ganhos'),
+                Tab(text: 'Total'),
+              ],
+            ),
+            Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 20)),
+
             // Dropdowns para selecionar mês e ano
             Row(
               children: [
@@ -180,8 +211,8 @@ class _DashboardState extends State<Dashboard> {
                     items: months.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
-                        child: Text(value[0].toUpperCase() +
-                            value.substring(1)), // Capitaliza a primeira letra
+                        child:
+                            Text(value[0].toUpperCase() + value.substring(1)),
                       );
                     }).toList(),
                   ),
@@ -212,90 +243,305 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
             Expanded(
               child: FutureBuilder<List<Map<String, dynamic>>>(
-                future: futureGastos,
+                future: futureMovimentacoes,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Erro ao carregar dados'));
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(child: Text('Não há dados para exibir'));
+                    return Center(
+                        child: Text(
+                      'Você ainda não cadastrou nenhuma movimentação neste período.',
+                      textAlign: TextAlign.center,
+                    ));
                   } else {
-                    var categorias =
-                        groupBy(snapshot.data!, (Map g) => g['categoria']);
+                    var gastos = snapshot.data!
+                        .where((mov) => mov['tipo'] == 'GASTO')
+                        .toList();
+                    var ganhos = snapshot.data!
+                        .where((mov) => mov['tipo'] == 'GANHO')
+                        .toList();
 
-                    List<PieChartSectionData> listaGrafico = [];
-                    for (var i = 0; i < categorias.length; i++) {
-                      var cat = categorias.keys.elementAt(i);
-                      var tot = categorias[cat]!
-                          .map((gasto) => double.parse(
-                              gasto['valor'].toString().replaceAll(',', '.')))
-                          .reduce((a, b) => a + b);
-                      listaGrafico.add(PieChartSectionData(
-                          value: tot,
-                          title: cat,
-                          titleStyle: const TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            shadows: [
-                              Shadow(
-                                offset: Offset(-1.5, -1.5),
-                                color: Colors.white,
-                              )
-                            ],
-                          ),
-                          radius: 70,
-                          showTitle: true,
-                          color: _mapColor(cat)));
-                    }
+                    var categoriasGastos =
+                        groupBy(gastos, (Map g) => g['categoria']);
+                    var categoriasGanhos =
+                        groupBy(ganhos, (Map g) => g['categoria']);
 
-                    return Column(
+                    double totalGastos = gastos.fold(0, (sum, item) {
+                      return sum +
+                          double.parse(
+                              item['valor'].toString().replaceAll(',', '.'));
+                    });
+                    double totalGanhos = ganhos.fold(0, (sum, item) {
+                      return sum +
+                          double.parse(
+                              item['valor'].toString().replaceAll(',', '.'));
+                    });
+
+                    return TabBarView(
+                      controller: _tabController,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        // Tab de Gastos
+                        Column(
                           children: [
+                            Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
                             SizedBox(
-                              width: 300,
-                              height: 400,
-                              child: (PieChart(
-                                swapAnimationCurve: Curves.decelerate,
-                                swapAnimationDuration: Duration(seconds: 2),
-                                PieChartData(
-                                  sections: listaGrafico,
-                                ),
-                              )),
+                              height: 28,
+                              child: Text(
+                                "R\$ ${totalGastos.toStringAsFixed(2).replaceAll('.', ',')}",
+                                style: TextStyle(
+                                    color: Colors.red[700],
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 25),
+                              ),
                             ),
+                            // Gráfico de Gastos
+                            categoriasGastos.isNotEmpty
+                                ? SizedBox(
+                                    width: 300,
+                                    height: 350,
+                                    child: PieChart(
+                                      swapAnimationDuration:
+                                          Duration(milliseconds: 150),
+                                      swapAnimationCurve: Curves.linear,
+                                      PieChartData(
+                                        centerSpaceRadius: 75,
+                                        pieTouchData:
+                                            PieTouchData(touchCallback: (
+                                          FlTouchEvent e,
+                                          PieTouchResponse? r,
+                                        ) {
+                                          if (r != null &&
+                                              r.touchedSection != null) {
+                                            setState(() {
+                                              _touchedIndex1 = r.touchedSection!
+                                                  .touchedSectionIndex;
+                                            });
+                                          }
+                                        }),
+                                        sections: categoriasGastos.keys
+                                            .mapIndexed((i, cat) {
+                                          final isTouched = _touchedIndex1 == i;
+                                          var total = categoriasGastos[cat]!
+                                              .map((gasto) => double.parse(
+                                                  gasto['valor']
+                                                      .toString()
+                                                      .replaceAll(',', '.')))
+                                              .reduce((a, b) => a + b);
+                                          final percentualCatgoria =
+                                              ((total / totalGastos) * 100)
+                                                      .toStringAsFixed(2)
+                                                      .replaceAll('.', ',') +
+                                                  "%";
+                                          return PieChartSectionData(
+                                            value: total,
+                                            badgeWidget: !isTouched
+                                                ? Icon(
+                                                    _mapIcon(cat),
+                                                    color: Colors.white,
+                                                  )
+                                                : null,
+                                            title: isTouched
+                                                ? percentualCatgoria
+                                                : null,
+                                            titleStyle: const TextStyle(
+                                                fontSize: 20,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                shadows: [
+                                                  Shadow(
+                                                      blurRadius: 50,
+                                                      color: Colors.black,
+                                                      offset:
+                                                          Offset(-1.5, -1.5))
+                                                ]),
+                                            color: _mapColor(cat),
+                                            showTitle: isTouched ? true : false,
+                                            radius: isTouched ? 80 : 70,
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
+                                  )
+                                : Text(''),
+
+                            // Lista de categorias de Gastos
+                            categoriasGastos.isNotEmpty
+                                ? Expanded(
+                                    child: ListView.builder(
+                                      itemCount: categoriasGastos.length,
+                                      itemBuilder: (context, index) {
+                                        var categoria = categoriasGastos.keys
+                                            .elementAt(index);
+                                        var total = categoriasGastos[categoria]!
+                                            .map((gasto) => double.parse(
+                                                gasto['valor']
+                                                    .toString()
+                                                    .replaceAll(',', '.')))
+                                            .reduce((a, b) => a + b);
+                                        return Card(
+                                          child: ListTile(
+                                            leading: Icon(
+                                              _mapIcon(categoria),
+                                              color: _mapColor(categoria),
+                                            ),
+                                            title: Text(categoria),
+                                            trailing: Text(
+                                                'R\$ ${total.toStringAsFixed(2)}'),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  )
+                                : Text(''),
                           ],
                         ),
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: categorias.length,
-                            itemBuilder: (context, index) {
-                              var categoria = categorias.keys.elementAt(index);
-                              var total = categorias[categoria]!
-                                  .map((gasto) => double.parse(gasto['valor']
-                                      .toString()
-                                      .replaceAll(',', '.')))
-                                  .reduce((a, b) => a + b);
+                        // Tab de Ganhos
+                        Column(
+                          children: [
+                            Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
+                            SizedBox(
+                              height: 28,
+                              child: Text(
+                                "R\$ ${totalGanhos.toStringAsFixed(2).replaceAll('.', ',')}",
+                                style: TextStyle(
+                                    color: Colors.green[700],
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 25),
+                              ),
+                            ),
+                            // Gráfico de Ganhos
+                            categoriasGanhos.isNotEmpty
+                                ? SizedBox(
+                                    width: 300,
+                                    height: 350,
+                                    child: PieChart(
+                                      swapAnimationDuration:
+                                          Duration(milliseconds: 150),
+                                      swapAnimationCurve: Curves.linear,
+                                      PieChartData(
+                                        centerSpaceRadius: 75,
+                                        pieTouchData:
+                                            PieTouchData(touchCallback: (
+                                          FlTouchEvent e2,
+                                          PieTouchResponse? r2,
+                                        ) {
+                                          if (r2 != null &&
+                                              r2.touchedSection != null) {
+                                            setState(() {
+                                              _touchedIndex2 = r2
+                                                  .touchedSection!
+                                                  .touchedSectionIndex;
+                                            });
+                                          }
+                                        }),
+                                        sections: categoriasGanhos.keys
+                                            .mapIndexed((i2, cat) {
+                                          var total = categoriasGanhos[cat]!
+                                              .map((ganho) => double.parse(
+                                                  ganho['valor']
+                                                      .toString()
+                                                      .replaceAll(',', '.')))
+                                              .reduce((a, b) => a + b);
+                                          final isTouched2 =
+                                              _touchedIndex2 == i2;
+                                          final percentualCatgoria =
+                                              ((total / totalGanhos) * 100)
+                                                      .toStringAsFixed(2)
+                                                      .replaceAll('.', ',') +
+                                                  "%";
+                                          return PieChartSectionData(
+                                            value: total,
+                                            badgeWidget: !isTouched2
+                                                ? Icon(
+                                                    _mapIcon(cat),
+                                                    color: Colors.white,
+                                                  )
+                                                : null,
+                                            title: isTouched2
+                                                ? percentualCatgoria
+                                                : null,
+                                            titleStyle: const TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            color: _mapColor(cat),
+                                            showTitle:
+                                                isTouched2 ? true : false,
+                                            radius: isTouched2 ? 80 : 70,
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ),
+                                  )
+                                : Text(''),
 
-                              return Card(
-                                child: ListTile(
-                                  leading: Icon(
-                                    _mapIcon(categoria),
-                                    color: _mapColor(categoria),
-                                  ),
-                                  title: Text(categoria),
-                                  trailing:
-                                      Text('R\$ ${total.toStringAsFixed(2)}'),
-                                ),
-                              );
-                            },
-                          ),
+                            // Lista de categorias de Ganhos
+                            categoriasGanhos.isNotEmpty
+                                ? Expanded(
+                                    child: ListView.builder(
+                                      itemCount: categoriasGanhos.length,
+                                      itemBuilder: (context, index) {
+                                        var categoria = categoriasGanhos.keys
+                                            .elementAt(index);
+                                        var total = categoriasGanhos[categoria]!
+                                            .map((ganho) => double.parse(
+                                                ganho['valor']
+                                                    .toString()
+                                                    .replaceAll(',', '.')))
+                                            .reduce((a, b) => a + b);
+                                        return Card(
+                                          child: ListTile(
+                                            leading: Icon(
+                                              _mapIcon(categoria),
+                                              color: _mapColor(categoria),
+                                            ),
+                                            title: Text(categoria),
+                                            trailing: Text(
+                                                'R\$ ${total.toStringAsFixed(2)}'),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  )
+                                : Text(''),
+                          ],
                         ),
+                        // Tab do Totalizador
+                        Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Total $selectedMonth/$selectedYear",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 30,
+                                    color: Colors.black87),
+                              ),
+                              TweenAnimationBuilder(
+                                tween: Tween<double>(
+                                    begin: 0, end: (totalGanhos - totalGastos)),
+                                duration: Duration(seconds: 2),
+                                builder: (context, value, child) {
+                                  return Text(
+                                    ' R\$ ${double.parse(value.toString()).toStringAsFixed(2).replaceAll('.', ',')}',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
+                                        color: (totalGanhos - totalGastos) > 0
+                                            ? Colors.green[700]
+                                            : Colors.red[700]),
+                                  );
+                                },
+                              )
+                            ]),
                       ],
                     );
                   }

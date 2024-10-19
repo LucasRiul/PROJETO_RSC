@@ -3,7 +3,7 @@
         "id": 1,
         "foto": "assets/images/eu.JPG",
         "fotoDescricao": "Autor: Lucas Riul Martins",
-        "descricao": "O objetivo deste aplicativo é auxiliar na organização financeira do usuário, facilitando seu controle de gastos e ganhos",
+        "descricao": "O objetivo deste aplicativo é auxiliar na organização financeira do usuário, facilitando seu controle de gastos e ganhos mensais, e também apresentar conteúdos relevantes do mundo financeiro.",
         "tema": "Sobre o aplicativo e autor",
         "link": "https://www.linkedin.com/in/lucas-riul-martins-038a5a1b4/",
         "videoLink" : "a",
@@ -146,16 +146,6 @@
         "descricao": "Planeje suas finanças para a aposentadoria desde cedo. Conheça as opções de planos de previdência privada, faça simulações de investimento, escolha um plano adequado para suas necessidades, e invista para garantir um futuro financeiro seguro.",
         "tema": "Aposentadoria",
         "link": "https://forbes.com.br/forbes-money/2023/01/eduardo-mira-sete-dicas-para-o-planejamento-da-aposentadoria/",
-        "videoLink" : "a",
-        "videoDescricao": "a"
-    },
-    {
-        "id": 16,
-        "foto": "assets/images/consórcio.jpg",
-        "fotoDescricao": "Descrição: Como funciona o consórcio",
-        "descricao": "Entenda como funciona o consórcio e use-o de forma estratégica. Avalie suas necessidades financeiras, escolha um consórcio com parcelas e prazos adequados, e planeje a aquisição do bem ou serviço que você deseja sem comprometer suas finanças pessoais.",
-        "tema": "Consórcio",
-        "link": "https://exame.com/invest/guia/o-que-e-consorcio-e-como-funciona-essa-modalidade-de-aquisicao/",
         "videoLink" : "a",
         "videoDescricao": "a"
     }

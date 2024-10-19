@@ -38,7 +38,7 @@
     {
         "id": 7,
         "Nome": "Financiamentos",
-        "Cor": "#ddf241",
+        "Cor": "#f2d13f",
         "Icone": "currency_exchange_outlined"
     },
     {
@@ -68,13 +68,13 @@
     {
         "id": 12,
         "Nome": "Renda fixa",
-        "Cor": "#17fc5f",
-        "Icone": "currency_exchange_outlined"
+        "Cor": "#63b063",
+        "Icone": "attach_money_outlined"
     },
     {
         "id": 13,
         "Nome": "Ganhos extras",
-        "Cor": "#35ff03",
-        "Icone": "attach_money_outlined"
+        "Cor": "#21825e",
+        "Icone": "currency_exchange_outlined"
     }
 ]
