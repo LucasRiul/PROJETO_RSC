@@ -270,13 +270,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             categoriasGastos.isNotEmpty
                                 ? SizedBox(
                                     width: 300,
-                                    height: 350,
+                                    height: 300,
                                     child: PieChart(
                                       swapAnimationDuration:
                                           Duration(milliseconds: 150),
                                       swapAnimationCurve: Curves.linear,
                                       PieChartData(
-                                        centerSpaceRadius: 75,
+                                        centerSpaceRadius: 65,
                                         pieTouchData:
                                             PieTouchData(touchCallback: (
                                           FlTouchEvent e,
@@ -328,7 +328,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                                 ]),
                                             color: _mapColor(cat),
                                             showTitle: isTouched ? true : false,
-                                            radius: isTouched ? 80 : 70,
+                                            radius: isTouched ? 75 : 65,
                                           );
                                         }).toList(),
                                       ),
@@ -385,13 +385,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             categoriasGanhos.isNotEmpty
                                 ? SizedBox(
                                     width: 300,
-                                    height: 350,
+                                    height: 300,
                                     child: PieChart(
                                       swapAnimationDuration:
                                           Duration(milliseconds: 150),
                                       swapAnimationCurve: Curves.linear,
                                       PieChartData(
-                                        centerSpaceRadius: 75,
+                                        centerSpaceRadius: 65,
                                         pieTouchData:
                                             PieTouchData(touchCallback: (
                                           FlTouchEvent e2,
@@ -440,7 +440,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                             color: _mapColor(cat),
                                             showTitle:
                                                 isTouched2 ? true : false,
-                                            radius: isTouched2 ? 80 : 70,
+                                            radius: isTouched2 ? 75 : 65,
                                           );
                                         }).toList(),
                                       ),

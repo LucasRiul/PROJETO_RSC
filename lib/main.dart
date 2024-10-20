@@ -8,7 +8,10 @@ import 'package:flutter_auth/Screens/view/TelaPrincipal/tela_principal.dart';
 import 'package:flutter_auth/constants.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:device_preview/device_preview.dart';
+import 'package:intl/intl_standalone.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
+
 
 // void main() => runApp(const MyApp());
 
@@ -16,13 +19,8 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  WidgetsFlutterBinding.ensureInitialized();
-  // await initializeDateFormatting('pt_BR', null);
-  // runApp(MyApp());
-  runApp(DevicePreview(
-    enabled: true,
-    builder: (context) => MyApp(),
-  ));
+  await initializeDateFormatting('pt_BR', null);
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
