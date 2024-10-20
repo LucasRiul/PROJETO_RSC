@@ -89,6 +89,9 @@ class _MovimentacoesState extends State<Movimentacoes> {
       data.text = movimentacao['data'].toString();
       descricao.text = movimentacao['descricao'].toString();
       categoriaSelecionada = movimentacao['categoria'].toString();
+    } else {
+      var hoje = DateTime.now();
+      data.text = '${hoje.day}/${hoje.month}/${hoje.year}';
     }
 
     showDialog(
@@ -182,15 +185,15 @@ class _MovimentacoesState extends State<Movimentacoes> {
                       ),
                       Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 10)),
                       TextField(
-                        controller: data,
-                        inputFormatters: [
-                          TextInputMask(mask: '99/99/9999', reverse: false)
-                        ],
-                        decoration: InputDecoration(
-                          labelText: 'Data',
-                          hintText: 'Date',
-                          prefixIcon: Icon(Icons.date_range),
-                          border: OutlineInputBorder(),
+                          controller: data,
+                          inputFormatters: [
+                            TextInputMask(mask: '99/99/9999', reverse: false)
+                          ],
+                          decoration: InputDecoration(
+                            labelText: 'Data',
+                            hintText: 'Data',
+                            prefixIcon: Icon(Icons.date_range),
+                            border: OutlineInputBorder(),
                         ),
                       ),
                       Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 10)),
@@ -248,33 +251,33 @@ class _MovimentacoesState extends State<Movimentacoes> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () {
-                      var dataSplit = data.text.split('/');
-                      var mes = dataSplit[1];
-                      var ano = dataSplit[2];
-                      var t = Movimentacao(
-                        LoginController().idUsuario(),
-                        txtTipoMovimentacao,
-                        valor.text.split(' ')[1],
-                        data.text,
-                        mes,
-                        ano,
-                        descricao.text,
-                        categoriaSelecionada.toString(),
-                      );
-                      txtTipoMovimentacao = '';
-                      valor.clear();
-                      data.clear();
-                      descricao.clear();
-                      categoriaSelecionada = categorias.isNotEmpty
-                          ? categorias[0]['Nome']
-                          : ''; // Reseta a categoria
+                        var dataSplit = data.text.split('/');
+                        var mes = dataSplit[1];
+                        var ano = dataSplit[2];
+                        var t = Movimentacao(
+                          LoginController().idUsuario(),
+                          txtTipoMovimentacao,
+                          valor.text.split(' ')[1],
+                          data.text,
+                          mes,
+                          ano,
+                          descricao.text,
+                          categoriaSelecionada.toString(),
+                        );
+                        txtTipoMovimentacao = '';
+                        valor.clear();
+                        data.clear();
+                        descricao.clear();
+                        categoriaSelecionada = categorias.isNotEmpty
+                            ? categorias[0]['Nome']
+                            : ''; // Reseta a categoria
 
-                      if (docId == null) {
-                        MovimentacaoController().adicionar(context, t);
-                      } else {
-                        MovimentacaoController().atualizar(context, docId, t);
-                      }
-                      Navigator.of(context).pop(); // Fecha o diálogo
+                        if (docId == null) {
+                          MovimentacaoController().adicionar(context, t);
+                        } else {
+                          MovimentacaoController().atualizar(context, docId, t);
+                        }
+                        Navigator.of(context).pop(); // Fecha o diálogo
                     },
                   ),
                 ],

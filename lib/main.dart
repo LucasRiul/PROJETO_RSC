@@ -16,11 +16,11 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  runApp(DevicePreview(
-    enabled: true,
-    builder: (context) => MyApp(),
-  ));
+  runApp(const MyApp());
+  // runApp(DevicePreview(
+  //   enabled: true,
+  //   builder: (context) => MyApp(),
+  // ));
 }
 
 class MyApp extends StatelessWidget {

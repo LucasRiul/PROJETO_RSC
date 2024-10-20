@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../constants.dart';
 import '../../../../model/conteudos.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class WidgetConteudo extends StatefulWidget {
   const WidgetConteudo({super.key});
@@ -19,6 +20,9 @@ class _WidgetConteudoState extends State<WidgetConteudo> {
   @override
   Widget build(BuildContext context) {
     var obj = ModalRoute.of(context)!.settings.arguments as Conteudos;
+    var txtVideo = obj.videoLink != "a" ? "Video sugerido" : "";
+    var htmlData =
+        '<iframe width="560" height="315" src="${obj.videoLink}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
@@ -60,26 +64,16 @@ class _WidgetConteudoState extends State<WidgetConteudo> {
                 style: GoogleFonts.raleway(fontSize: 16),
                 textAlign: TextAlign.center),
             SizedBox(height: defaultPadding * 3),
-            RichText(
-              text: TextSpan(children: [
-                TextSpan(
-                    text: "Link sugerido: clique ",
-                    style: GoogleFonts.raleway(
-                        fontSize: 20, fontWeight: FontWeight.bold)),
-                TextSpan(
-                    text: "aqui!",
-                    style: GoogleFonts.raleway(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: kPrimaryColor,
-                        decoration: TextDecoration.underline),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        launchUrl(Uri.parse(obj.link));
-                      })
-              ]),
+            HtmlWidget(htmlData),
+            Text(
+              txtVideo,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: defaultPadding * 3),
+            SizedBox(height: defaultPadding * 10),
           ],
         ),
       ),

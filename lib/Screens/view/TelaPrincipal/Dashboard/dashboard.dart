@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_auth/constants.dart';
 import 'package:flutter_auth/controller/login_controller.dart';
+import 'package:flutter_auth/controller/movimentacao_controller.dart';
 import 'package:intl/intl.dart'; // Para pegar o mês e ano atual
 import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -40,7 +41,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     // Inicia o FutureBuilder com o mês e ano atuais
-    futureMovimentacoes = listarComFiltro(selectedMonth, selectedYear);
+    futureMovimentacoes =
+        MovimentacaoController().listarComFiltro(selectedMonth, selectedYear);
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(() {
       if (_tabController.indexIsChanging) {
@@ -51,25 +53,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
         });
       }
     });
-  }
-
-  Future<List<Map<String, dynamic>>> listarComFiltro(
-      String mes, String ano) async {
-    mes = _converterMes(mes);
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('movimentacao')
-        .where('uid', isEqualTo: LoginController().idUsuario())
-        .where('mes', isEqualTo: mes)
-        .where('ano', isEqualTo: ano)
-        .get();
-
-    if (querySnapshot.docs.isEmpty) {
-      return []; // Retorna uma lista vazia se não houver dados
-    } else {
-      return querySnapshot.docs
-          .map((doc) => doc.data() as Map<String, dynamic>)
-          .toList();
-    }
   }
 
   IconData _mapIcon(String iconName) {
@@ -157,24 +140,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   // Atualiza o filtro ao clicar no ícone de pesquisa
   void _atualizarFiltro() {
     setState(() {
-      futureMovimentacoes = listarComFiltro(selectedMonth, selectedYear);
+      futureMovimentacoes =
+          MovimentacaoController().listarComFiltro(selectedMonth, selectedYear);
     });
-  }
-
-  _converterMes(mes) {
-    mes = mes.toString().toLowerCase();
-    if (mes == 'janeiro') return '01';
-    if (mes == 'fevereiro') return '02';
-    if (mes == 'março') return '03';
-    if (mes == 'abril') return '04';
-    if (mes == 'maio') return '05';
-    if (mes == 'junho') return '06';
-    if (mes == 'julho') return '07';
-    if (mes == 'agosto') return '08';
-    if (mes == 'setembro') return '09';
-    if (mes == 'outubro') return '10';
-    if (mes == 'novembro') return '11';
-    if (mes == 'dezembro') return '12';
   }
 
   @override
