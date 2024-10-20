@@ -16,11 +16,13 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
-  // runApp(DevicePreview(
-  //   enabled: true,
-  //   builder: (context) => MyApp(),
-  // ));
+  WidgetsFlutterBinding.ensureInitialized();
+  // await initializeDateFormatting('pt_BR', null);
+  // runApp(MyApp());
+  runApp(DevicePreview(
+    enabled: true,
+    builder: (context) => MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
