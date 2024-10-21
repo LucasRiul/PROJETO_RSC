@@ -222,8 +222,10 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     return Center(
                         child: Text(
-                      'Você ainda não cadastrou nenhuma movimentação neste período.',
+                      'Você ainda não cadastrou nenhuma movimentação neste período.\n Vá para a página de "Movimentações" adicionar gastos e ganhos e depois retorne aqui.',
                       textAlign: TextAlign.center,
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ));
                   } else {
                     var gastos = snapshot.data!
@@ -356,9 +358,14 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                               _mapIcon(categoria),
                                               color: _mapColor(categoria),
                                             ),
-                                            title: Text(categoria),
+                                            title: Text(
+                                              categoria,
+                                              style: TextStyle(fontSize: 17),
+                                            ),
                                             trailing: Text(
-                                                'R\$ ${total.toStringAsFixed(2)}'),
+                                              'R\$ ${total.toStringAsFixed(2)}',
+                                              style: TextStyle(fontSize: 17),
+                                            ),
                                           ),
                                         );
                                       },
@@ -468,9 +475,14 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                               _mapIcon(categoria),
                                               color: _mapColor(categoria),
                                             ),
-                                            title: Text(categoria),
+                                            title: Text(
+                                              categoria,
+                                              style: TextStyle(fontSize: 17),
+                                            ),
                                             trailing: Text(
-                                                'R\$ ${total.toStringAsFixed(2)}'),
+                                              'R\$ ${total.toStringAsFixed(2)}',
+                                              style: TextStyle(fontSize: 17),
+                                            ),
                                           ),
                                         );
                                       },

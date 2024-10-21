@@ -23,9 +23,10 @@ class LoginController {
       FirebaseFirestore.instance.collection('usuarios').add({
         'uid': resultado.user!.uid,
         'nome': nome,
+        'primeiroacesso': true,
       });
 
-      sucesso(context, 'Agora sua vida financeira vai pra outro patamar 🤑😎');
+      sucesso(context, 'Agora sua vida financeira vai pra outro patamar');
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const LoginScreen()));
     }).catchError((e) {
@@ -127,14 +128,56 @@ class LoginController {
     return usuario;
   }
 
-  void alterarNome(context, String nomeUpdate) {
-    FirebaseFirestore.instance
+  Future<bool> getPrimeiroAcesso(context) async {
+    bool primeiroacesso = true;
+    await FirebaseFirestore.instance
         .collection('usuarios')
-        .doc(idUsuario())
-        .update({'nome': nomeUpdate}).then((value) {
-      sucesso(context, 'Nome alterado com sucesso');
-    }).catchError((e) {
-      erro(context, 'ERRO: ${e.code.toString()}');
-    });
+        .where('uid', isEqualTo: idUsuario())
+        .get()
+        .then(
+      (resultado) {
+        primeiroacesso = resultado.docs[0].data()['primeiroacesso'];
+      },
+    );
+    return primeiroacesso;
+  }
+
+  void acessou(context) {
+    var user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      String uid = user.uid;
+
+      // Consulta o Firestore para encontrar o documento pelo campo 'uid'
+      FirebaseFirestore.instance
+          .collection('usuarios')
+          .where('uid', isEqualTo: uid)
+          .limit(1) // Limita a consulta a um único resultado
+          .get()
+          .then((querySnapshot) {
+        if (querySnapshot.docs.isNotEmpty) {
+          // Pega o Document ID do primeiro documento retornado
+          String docId = querySnapshot.docs.first.id;
+
+          // Atualiza o campo 'primeiroacesso' no documento encontrado
+          FirebaseFirestore.instance
+              .collection('usuarios')
+              .doc(docId)
+              .update({'primeiroacesso': false}).then((value) {
+            // Sucesso (ajuste conforme necessário)
+            // sucesso(context, 'Acesso registrado com sucesso');
+          }).catchError((e) {
+            erro(context, 'ERRO: ${e.toString()}');
+          });
+        } else {
+          // Caso nenhum documento seja encontrado
+          erro(context, 'ERRO: Documento não encontrado.');
+        }
+      }).catchError((e) {
+        erro(context, 'ERRO: ${e.toString()}');
+      });
+    } else {
+      erro(context, 'ERRO: Usuário não autenticado');
+    }
   }
 }

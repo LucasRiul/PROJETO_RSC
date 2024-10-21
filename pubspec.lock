@@ -702,7 +702,7 @@ packages:
     source: hosted
     version: "0.27.7"
   shared_preferences:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: shared_preferences
       sha256: "746e5369a43170c25816cc472ee016d3a66bc13fcf430c0bc41ad7b4b2922051"
@@ -882,6 +882,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.3"
+  tutorial_coach_mark:
+    dependency: "direct main"
+    description:
+      name: tutorial_coach_mark
+      sha256: "1f1fd234790afb929dec7391a4d90aa54ffe8c8e4d278d9283df8e3f5ac5d63e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.11"
   typed_data:
     dependency: transitive
     description:

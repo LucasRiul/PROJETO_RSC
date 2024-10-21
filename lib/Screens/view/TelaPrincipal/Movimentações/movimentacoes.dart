@@ -10,6 +10,7 @@ import 'package:easy_mask/easy_mask.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../../util.dart' as util;
 
 class Movimentacoes extends StatefulWidget {
   const Movimentacoes({super.key});
@@ -79,6 +80,77 @@ class _MovimentacoesState extends State<Movimentacoes> {
       default:
         return Icons.category_outlined; // Ícone padrão
     }
+  }
+
+  String validarFormulario(
+      String? desc, String? cat, String? dt, String? vl, String? tipMv) {
+    String msg = '';
+    if (desc == '' || desc == null) {
+      if (msg == '') {
+        msg += 'Campo Descrição obrigatório.';
+      } else {
+        msg += '\nCampo Descrição obrigatório.';
+      }
+    }
+    if (cat == '' || cat == null) {
+      if (msg == '') {
+        msg += 'Campo Categoria obrigatório.';
+      } else {
+        msg += '\nCampo Categoria obrigatório.';
+      }
+    }
+    if (dt == '' || dt == null) {
+      if (msg == '') {
+        msg += 'Campo Data obrigatório.';
+      } else {
+        msg += '\nCampo Data obrigatório.';
+      }
+    }
+    if (vl == '' || vl == null) {
+      if (msg == '') {
+        msg += 'Campo Valor obrigatório.';
+      } else {
+        msg += '\nCampo Valor obrigatório.';
+      }
+    }
+    if (tipMv == '' || tipMv == null) {
+      if (msg == '') {
+        msg += 'Selecione Gasto ou Ganho.';
+      } else {
+        msg += '\nSelecione Gasto ou Ganho.';
+      }
+    }
+    if (!validarData(dt)) {
+      if (msg == '') {
+        msg += 'Data inválida.';
+      } else {
+        msg += '\nData inválida.';
+      }
+    }
+
+    return msg;
+  }
+
+  bool validarData(String? valor) {
+    if (valor != null) {
+      final partes = valor.split('/');
+      if (partes.length == 3) {
+        int? dia = int.tryParse(partes[0]);
+        int? mes = int.tryParse(partes[1]);
+        int? ano = int.tryParse(partes[2]);
+
+        if (mes == null || mes < 1 || mes > 12) {
+          return false;
+        } else if (dia == null || dia < 1 || dia > 31) {
+          return false;
+        } else {
+          return true;
+        }
+      } else {
+        return false;
+      }
+    }
+    return false;
   }
 
   void adicionarMovimentacao(context, {docId, dynamic movimentacao}) {
@@ -185,15 +257,15 @@ class _MovimentacoesState extends State<Movimentacoes> {
                       ),
                       Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 10)),
                       TextField(
-                          controller: data,
-                          inputFormatters: [
-                            TextInputMask(mask: '99/99/9999', reverse: false)
-                          ],
-                          decoration: InputDecoration(
-                            labelText: 'Data',
-                            hintText: 'Data',
-                            prefixIcon: Icon(Icons.date_range),
-                            border: OutlineInputBorder(),
+                        controller: data,
+                        inputFormatters: [
+                          TextInputMask(mask: '99/99/9999', reverse: false)
+                        ],
+                        decoration: InputDecoration(
+                          labelText: 'Data',
+                          hintText: 'dd/mm/aaaa',
+                          prefixIcon: Icon(Icons.date_range),
+                          border: OutlineInputBorder(),
                         ),
                       ),
                       Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 10)),
@@ -251,7 +323,14 @@ class _MovimentacoesState extends State<Movimentacoes> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () {
-                        var dataSplit = data.text.split('/');
+                      var erro = validarFormulario(
+                          descricao.text,
+                          categoriaSelecionada,
+                          data.text,
+                          valor.text,
+                          txtTipoMovimentacao);
+                      var dataSplit = data.text.split('/');
+                      if (erro == '') {
                         var mes = dataSplit[1];
                         var ano = dataSplit[2];
                         var t = Movimentacao(
@@ -278,6 +357,40 @@ class _MovimentacoesState extends State<Movimentacoes> {
                           MovimentacaoController().atualizar(context, docId, t);
                         }
                         Navigator.of(context).pop(); // Fecha o diálogo
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Stack(
+                                children: [
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text("Formulário Inválido"),
+                                  ),
+                                ],
+                              ),
+                              content: Text(erro),
+                              actions: [
+                                ElevatedButton(
+                                  child: Text(
+                                    "OK",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        Colors.red, // Cor do botão de exclusão
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pop(); // Fecha o diálogo após a exclusão
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
                     },
                   ),
                 ],
@@ -366,15 +479,16 @@ class _MovimentacoesState extends State<Movimentacoes> {
                               : Icon(Icons.keyboard_double_arrow_up,
                                   color: Colors.green),
                           title: Text(
-                              'R\$' +
-                                  item['valor'].toString() +
-                                  ' - ' +
-                                  item['categoria'],
-                              overflow: TextOverflow.ellipsis),
-                          subtitle: Text(
-                            item['descricao'],
+                            'R\$' +
+                                item['valor'].toString() +
+                                ' - ' +
+                                item['categoria'],
                             overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontSize: 17),
                           ),
+                          subtitle: Text(item['descricao'],
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(fontSize: 17)),
                           trailing: IconButton(
                             icon: Icon(Icons.delete,
                                 color: Color.fromARGB(255, 247, 99, 89)),
@@ -399,8 +513,11 @@ class _MovimentacoesState extends State<Movimentacoes> {
                 } else {
                   return Center(
                     child: Text(
-                        'Você ainda não cadastrou nenhuma movimentação.',
-                        style: TextStyle(color: kPrimaryColor)),
+                      'Você ainda não cadastrou nenhuma movimentação. \nClique no "+" para adicionar um gasto ou um ganho.',
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
                   );
                 }
             }
