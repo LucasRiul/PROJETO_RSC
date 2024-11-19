@@ -174,6 +174,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                     onChanged: (String? newValue) {
                       setState(() {
                         selectedMonth = newValue!;
+                        _atualizarFiltro();
                       });
                     },
                     items: months.map<DropdownMenuItem<String>>((String value) {
@@ -192,6 +193,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                     onChanged: (String? newValue) {
                       setState(() {
                         selectedYear = newValue!;
+                        _atualizarFiltro();
                       });
                     },
                     items: List<String>.generate(4, (index) {
@@ -270,9 +272,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             ),
                             // Gráfico de Gastos
                             categoriasGastos.isNotEmpty
-                                ? SizedBox(
-                                    width: 300,
-                                    height: 300,
+                                ? Expanded(
+                                    flex: 2,
                                     child: PieChart(
                                       swapAnimationDuration:
                                           Duration(milliseconds: 150),
@@ -390,9 +391,8 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             ),
                             // Gráfico de Ganhos
                             categoriasGanhos.isNotEmpty
-                                ? SizedBox(
-                                    width: 300,
-                                    height: 300,
+                                ? Expanded(
+                                    flex: 2,
                                     child: PieChart(
                                       swapAnimationDuration:
                                           Duration(milliseconds: 150),

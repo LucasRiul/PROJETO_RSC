@@ -157,7 +157,7 @@ class _MovimentacoesState extends State<Movimentacoes> {
     if (movimentacao != null) {
       // Se for edição, preencher os campos com os dados existentes
       txtTipoMovimentacao = movimentacao['tipo'];
-      valor.text = movimentacao['valor'].toString();
+      valor.text = "R\$ " + movimentacao['valor'].toString();
       data.text = movimentacao['data'].toString();
       descricao.text = movimentacao['descricao'].toString();
       categoriaSelecionada = movimentacao['categoria'].toString();
