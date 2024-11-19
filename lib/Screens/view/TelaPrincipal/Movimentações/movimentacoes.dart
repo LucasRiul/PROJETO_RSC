@@ -206,113 +206,115 @@ class _MovimentacoesState extends State<Movimentacoes> {
                     ),
                   ],
                 ),
-                content: SizedBox(
-                  height: 300,
-                  width: 350,
-                  child: Column(
-                    children: [
-                      CustomRadioButton(
-                        elevation: 2,
-                        enableShape: true,
-                        shapeRadius: 20,
-                        absoluteZeroSpacing: true,
-                        defaultSelected: txtTipoMovimentacao.isNotEmpty
-                            ? txtTipoMovimentacao
-                            : null,
-                        margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                        padding: 10,
-                        spacing: 30,
-                        unSelectedColor: Colors.white,
-                        buttonLables: [
-                          'Gasto',
-                          'Ganho',
-                        ],
-                        buttonValues: [
-                          "GASTO",
-                          "GANHO",
-                        ],
-                        buttonTextStyle: ButtonTextStyle(
-                            selectedColor: Colors.white,
-                            unSelectedColor: Colors.black,
-                            textStyle: TextStyle(fontSize: 16)),
-                        radioButtonValue: (value) {
-                          txtTipoMovimentacao = value.toString();
-                        },
-                        selectedColor: kPrimaryColor,
-                      ),
-                      Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 10)),
-                      TextField(
-                        controller: valor,
-                        inputFormatters: [
-                          TextInputMask(
-                              mask: 'R!\$! !9+,99',
-                              placeholder: '0',
-                              maxPlaceHolders: 3,
-                              reverse: true)
-                        ],
-                        decoration: InputDecoration(
-                          labelText: 'Valor(R\$)',
-                          border: OutlineInputBorder(),
+                content: SingleChildScrollView(
+                  child: SizedBox(
+                    height: 300,
+                    width: 350,
+                    child: Column(
+                      children: [
+                        CustomRadioButton(
+                          elevation: 2,
+                          enableShape: true,
+                          shapeRadius: 20,
+                          absoluteZeroSpacing: true,
+                          defaultSelected: txtTipoMovimentacao.isNotEmpty
+                              ? txtTipoMovimentacao
+                              : null,
+                          margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                          padding: 10,
+                          spacing: 30,
+                          unSelectedColor: Colors.white,
+                          buttonLables: [
+                            'Gasto',
+                            'Ganho',
+                          ],
+                          buttonValues: [
+                            "GASTO",
+                            "GANHO",
+                          ],
+                          buttonTextStyle: ButtonTextStyle(
+                              selectedColor: Colors.white,
+                              unSelectedColor: Colors.black,
+                              textStyle: TextStyle(fontSize: 16)),
+                          radioButtonValue: (value) {
+                            txtTipoMovimentacao = value.toString();
+                          },
+                          selectedColor: kPrimaryColor,
                         ),
-                      ),
-                      Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 10)),
-                      TextField(
-                        controller: data,
-                        inputFormatters: [
-                          TextInputMask(mask: '99/99/9999', reverse: false)
-                        ],
-                        decoration: InputDecoration(
-                          labelText: 'Data',
-                          hintText: 'dd/mm/aaaa',
-                          prefixIcon: Icon(Icons.date_range),
-                          border: OutlineInputBorder(),
+                        Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 10)),
+                        TextField(
+                          controller: valor,
+                          inputFormatters: [
+                            TextInputMask(
+                                mask: 'R!\$! !9+,99',
+                                placeholder: '0',
+                                maxPlaceHolders: 3,
+                                reverse: true)
+                          ],
+                          decoration: InputDecoration(
+                            labelText: 'Valor(R\$)',
+                            border: OutlineInputBorder(),
+                          ),
                         ),
-                      ),
-                      Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 10)),
-                      DropdownButtonFormField<String>(
-                        isExpanded: true,
-                        alignment: Alignment.center,
-                        decoration: InputDecoration(
-                          labelText: 'Categoria',
-                          border: OutlineInputBorder(),
+                        Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 10)),
+                        TextField(
+                          controller: data,
+                          inputFormatters: [
+                            TextInputMask(mask: '99/99/9999', reverse: false)
+                          ],
+                          decoration: InputDecoration(
+                            labelText: 'Data',
+                            hintText: 'dd/mm/aaaa',
+                            prefixIcon: Icon(Icons.date_range),
+                            border: OutlineInputBorder(),
+                          ),
                         ),
-                        value: categoriaSelecionada,
-                        items: categorias
-                            .map<DropdownMenuItem<String>>((categoria) {
-                          return DropdownMenuItem<String>(
-                            value: categoria['Nome'],
-                            child: Row(
-                              children: [
-                                Icon(
-                                  _mapIcon(categoria['Icone']),
-                                  color: Color(int.parse(
-                                      '0xff${categoria['Cor'].substring(1)}')),
-                                ),
-                                SizedBox(width: 10),
-                                Text(
-                                  categoria['Nome'],
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            categoriaSelecionada = value;
-                          });
-                        },
-                      ),
-                      Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 10)),
-                      TextField(
-                        controller: descricao,
-                        decoration: InputDecoration(
-                          labelText: 'Descrição',
-                          prefixIcon: Icon(Icons.edit),
-                          border: OutlineInputBorder(),
+                        Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 10)),
+                        DropdownButtonFormField<String>(
+                          isExpanded: true,
+                          alignment: Alignment.center,
+                          decoration: InputDecoration(
+                            labelText: 'Categoria',
+                            border: OutlineInputBorder(),
+                          ),
+                          value: categoriaSelecionada,
+                          items: categorias
+                              .map<DropdownMenuItem<String>>((categoria) {
+                            return DropdownMenuItem<String>(
+                              value: categoria['Nome'],
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    _mapIcon(categoria['Icone']),
+                                    color: Color(int.parse(
+                                        '0xff${categoria['Cor'].substring(1)}')),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    categoria['Nome'],
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              categoriaSelecionada = value;
+                            });
+                          },
                         ),
-                      ),
-                    ],
+                        Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 10)),
+                        TextField(
+                          controller: descricao,
+                          decoration: InputDecoration(
+                            labelText: 'Descrição',
+                            prefixIcon: Icon(Icons.edit),
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 actionsPadding: EdgeInsets.fromLTRB(20, 0, 20, 10),

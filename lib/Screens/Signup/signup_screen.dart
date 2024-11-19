@@ -57,7 +57,7 @@ class MobileSignupScreen extends StatelessWidget {
             Spacer(),
             Expanded(
               flex: 8,
-              child: SignUpForm(),
+              child: SingleChildScrollView(child: SignUpForm()),
             ),
             Spacer(),
           ],
