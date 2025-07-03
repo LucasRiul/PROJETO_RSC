@@ -23,9 +23,9 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
   var paginaControlador = PageController();
 
   // GlobalKeys para os ícones da BottomNavigationBar
-  GlobalKey _dashboardKey = GlobalKey();
-  GlobalKey _movimentacoesKey = GlobalKey();
-  GlobalKey _conteudoKey = GlobalKey();
+  final GlobalKey _dashboardKey = GlobalKey();
+  final GlobalKey _movimentacoesKey = GlobalKey();
+  final GlobalKey _conteudoKey = GlobalKey();
 
   // Tutorial coach mark
   List<TargetFocus> targets = [];
@@ -58,7 +58,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
         contents: [
           TargetContent(
             align: ContentAlign.top,
-            child: Text(
+            child: const Text(
               "As movimentações de gastos e ganhos que você adicionar aparecerão aqui na dashboard para você analisar!\n A aba de Gastos mostra seus gastos do período selecionado agrupados por categoria.\n A aba de Ganhos mostra seus ganhos do período selecionado agrupados por categoria.\n A aba de Total mostra um balanço entre a diferença de Ganhos e Gastos do período selecionado.",
               style: TextStyle(color: Colors.white),
             ),
@@ -71,7 +71,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
         contents: [
           TargetContent(
             align: ContentAlign.top,
-            child: Text(
+            child: const Text(
               "Aqui você pode adicionar, excluir, alterar e visualizar todas as suas movimentações de gastos e ganhos!",
               style: TextStyle(color: Colors.white),
             ),
@@ -84,7 +84,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
         contents: [
           TargetContent(
             align: ContentAlign.top,
-            child: Text(
+            child: const Text(
               "Aqui você pode acessar conteúdos informativos para te auxiliar na sua vida financeira!",
               style: TextStyle(color: Colors.white),
             ),
@@ -121,7 +121,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
             ),
             IconButton(
               color: Colors.white,
-              icon: Icon(
+              icon: const Icon(
                 Icons.exit_to_app_outlined,
                 size: 25,
               ),
@@ -135,7 +135,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
       ),
       body: PageView(
         controller: paginaControlador,
-        children: [
+        children: const [
           Dashboard(),
           Movimentacoes(),
           Conteudo(),
@@ -186,7 +186,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
           });
           paginaControlador.animateToPage(
             index,
-            duration: Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 200),
             curve: Curves.easeIn,
           );
         },

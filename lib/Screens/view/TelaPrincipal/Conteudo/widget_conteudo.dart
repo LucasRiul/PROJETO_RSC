@@ -1,13 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../constants.dart';
 import '../../../../model/conteudos.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class WidgetConteudo extends StatefulWidget {
   const WidgetConteudo({super.key});
@@ -64,7 +61,7 @@ class _WidgetConteudoState extends State<WidgetConteudo> {
                 style: GoogleFonts.raleway(fontSize: 16),
                 textAlign: TextAlign.center),
             SizedBox(height: defaultPadding * 3),
-            HtmlWidget(htmlData),
+            // HtmlWidget(htmlData),
             Text(
               txtVideo,
               textAlign: TextAlign.center,

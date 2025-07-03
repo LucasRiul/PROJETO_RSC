@@ -1,10 +1,5 @@
-import 'dart:js';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_auth/Screens/Login/login_screen.dart';
 import 'package:flutter_auth/model/movimentacao.dart';
-import '../Screens/view/TelaPrincipal/tela_principal.dart';
 import '../util.dart';
 import 'login_controller.dart';
 

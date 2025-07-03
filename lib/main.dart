@@ -1,26 +1,19 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/Welcome/welcome_screen.dart';
 import 'package:flutter_auth/Screens/view/TelaPrincipal/Conteudo/widget_conteudo.dart';
-import 'package:flutter_auth/Screens/view/TelaPrincipal/Dashboard/dashboard.dart';
 import 'package:flutter_auth/Screens/view/TelaPrincipal/tela_principal.dart';
 import 'package:flutter_auth/constants.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:intl/intl_standalone.dart';
-import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-
-// void main() => runApp(const MyApp());
 
 Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await initializeDateFormatting('pt_BR', null);
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -34,9 +27,9 @@ class MyApp extends StatelessWidget {
       title: 'Riul Spend Control',
       initialRoute: 'inicio',
       routes: {
-        'inicio': (context) => WelcomeScreen(),
-        'conteudos': (context) => WidgetConteudo(),
-        'dashboard': (context) => TelaPrincipal()
+        'inicio': (context) => const WelcomeScreen(),
+        'conteudos': (context) => const WidgetConteudo(),
+        'dashboard': (context) => const TelaPrincipal()
       },
       theme: ThemeData(
           primaryColor: kPrimaryColor,

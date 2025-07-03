@@ -51,12 +51,12 @@ class MobileLoginScreen extends StatelessWidget {
         const ForgotPasswordTopImage(),
         Row(
           children: [
-            Spacer(),
+            const Spacer(),
             Expanded(
               flex: 8,
               child: ForgotPasswordForm(),
             ),
-            Spacer(),
+            const Spacer(),
           ],
         ),
       ],

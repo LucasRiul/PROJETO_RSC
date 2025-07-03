@@ -4,7 +4,6 @@ import 'package:flutter_auth/responsive.dart';
 import '../../components/background.dart';
 import 'components/sign_up_top_image.dart';
 import 'components/signup_form.dart';
-import 'components/socal_sign_up.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -28,7 +27,7 @@ class SignUpScreen extends StatelessWidget {
                       width: 450,
                       child: SignUpForm(),
                     ),
-                    SizedBox(height: defaultPadding / 2),
+                    const SizedBox(height: defaultPadding / 2),
                     // SocalSignUp()
                   ],
                 ),
@@ -54,15 +53,15 @@ class MobileSignupScreen extends StatelessWidget {
         const SignUpScreenTopImage(),
         Row(
           children: [
-            Spacer(),
+            const Spacer(),
             Expanded(
               flex: 8,
               child: SingleChildScrollView(child: SignUpForm()),
             ),
-            Spacer(),
+            const Spacer(),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: defaultPadding,
         )
         // const SocalSignUp()

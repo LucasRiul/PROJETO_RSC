@@ -11,6 +11,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../../util.dart' as util;
+import 'package:intl/intl.dart'; // para formatar mês e ano
 
 class Movimentacoes extends StatefulWidget {
   const Movimentacoes({super.key});
@@ -32,10 +33,44 @@ class _MovimentacoesState extends State<Movimentacoes> {
   List<dynamic> categorias = [];
   String? categoriaSelecionada;
 
+  // FILTROS MÊS e ANO
+  String selectedMonth =
+      DateFormat.MMMM('pt_BR').format(DateTime.now()).toLowerCase();
+  String selectedYear = DateTime.now().year.toString();
+
+  Future<List<Map<String, dynamic>>>? futureMovimentacoes;
+
+  List<String> months = [
+    'janeiro',
+    'fevereiro',
+    'março',
+    'abril',
+    'maio',
+    'junho',
+    'julho',
+    'agosto',
+    'setembro',
+    'outubro',
+    'novembro',
+    'dezembro'
+  ];
+
   @override
   void initState() {
     super.initState();
     carregarCategorias(); // Carregar categorias uma vez no início
+
+    // Carregar movimentações filtradas no initState
+    futureMovimentacoes =
+        MovimentacaoController().listarComFiltro(selectedMonth, selectedYear);
+  }
+
+  // Atualiza o filtro e busca as movimentações filtradas
+  void _atualizarFiltro() {
+    setState(() {
+      futureMovimentacoes =
+          MovimentacaoController().listarComFiltro(selectedMonth, selectedYear);
+    });
   }
 
   // Carregar dados do JSON
@@ -46,6 +81,9 @@ class _MovimentacoesState extends State<Movimentacoes> {
       final data = json.decode(response);
       setState(() {
         categorias = data;
+        if (categoriaSelecionada == null && categorias.isNotEmpty) {
+          categoriaSelecionada = categorias[0]['Nome'];
+        }
       });
     } catch (e) {
       print("Erro ao carregar categorias: $e"); // Exibe o erro no console
@@ -157,7 +195,7 @@ class _MovimentacoesState extends State<Movimentacoes> {
     if (movimentacao != null) {
       // Se for edição, preencher os campos com os dados existentes
       txtTipoMovimentacao = movimentacao['tipo'];
-      valor.text = "R\$ " + movimentacao['valor'].toString();
+      valor.text = "R\$ ${movimentacao['valor']}";
       data.text = movimentacao['data'].toString();
       descricao.text = movimentacao['descricao'].toString();
       categoriaSelecionada = movimentacao['categoria'].toString();
@@ -173,9 +211,9 @@ class _MovimentacoesState extends State<Movimentacoes> {
           future: carregarCategorias(), // Carrega as categorias
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
-              return AlertDialog(
+              return const AlertDialog(
                 title: Text("Erro ao carregar categorias"),
                 content: Text("Ocorreu um erro ao carregar as categorias."),
               );
@@ -186,12 +224,12 @@ class _MovimentacoesState extends State<Movimentacoes> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child:
-                          docId == null ? Text("Adicionar") : Text("Alterar"),
+                          docId == null ? const Text("Adicionar") : const Text("Alterar"),
                     ),
                     Align(
                       alignment: Alignment.topRight,
                       child: IconButton(
-                        icon: Icon(Icons.close),
+                        icon: const Icon(Icons.close),
                         onPressed: () {
                           txtTipoMovimentacao = '';
                           valor.clear();
@@ -220,19 +258,19 @@ class _MovimentacoesState extends State<Movimentacoes> {
                           defaultSelected: txtTipoMovimentacao.isNotEmpty
                               ? txtTipoMovimentacao
                               : null,
-                          margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                          margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                           padding: 10,
                           spacing: 30,
                           unSelectedColor: Colors.white,
-                          buttonLables: [
+                          buttonLables: const [
                             'Gasto',
                             'Ganho',
                           ],
-                          buttonValues: [
+                          buttonValues: const [
                             "GASTO",
                             "GANHO",
                           ],
-                          buttonTextStyle: ButtonTextStyle(
+                          buttonTextStyle: const ButtonTextStyle(
                               selectedColor: Colors.white,
                               unSelectedColor: Colors.black,
                               textStyle: TextStyle(fontSize: 16)),
@@ -241,7 +279,7 @@ class _MovimentacoesState extends State<Movimentacoes> {
                           },
                           selectedColor: kPrimaryColor,
                         ),
-                        Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 10)),
+                        const Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 10)),
                         TextField(
                           controller: valor,
                           inputFormatters: [
@@ -251,29 +289,29 @@ class _MovimentacoesState extends State<Movimentacoes> {
                                 maxPlaceHolders: 3,
                                 reverse: true)
                           ],
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Valor(R\$)',
                             border: OutlineInputBorder(),
                           ),
                         ),
-                        Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 10)),
+                        const Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 10)),
                         TextField(
                           controller: data,
                           inputFormatters: [
                             TextInputMask(mask: '99/99/9999', reverse: false)
                           ],
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Data',
                             hintText: 'dd/mm/aaaa',
                             prefixIcon: Icon(Icons.date_range),
                             border: OutlineInputBorder(),
                           ),
                         ),
-                        Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 10)),
+                        const Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 10)),
                         DropdownButtonFormField<String>(
                           isExpanded: true,
                           alignment: Alignment.center,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Categoria',
                             border: OutlineInputBorder(),
                           ),
@@ -289,7 +327,7 @@ class _MovimentacoesState extends State<Movimentacoes> {
                                     color: Color(int.parse(
                                         '0xff${categoria['Cor'].substring(1)}')),
                                   ),
-                                  SizedBox(width: 10),
+                                  const SizedBox(width: 10),
                                   Text(
                                     categoria['Nome'],
                                     overflow: TextOverflow.ellipsis,
@@ -304,10 +342,10 @@ class _MovimentacoesState extends State<Movimentacoes> {
                             });
                           },
                         ),
-                        Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 10)),
+                        const Padding(padding: EdgeInsets.fromLTRB(20, 0, 20, 10)),
                         TextField(
                           controller: descricao,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Descrição',
                             prefixIcon: Icon(Icons.edit),
                             border: OutlineInputBorder(),
@@ -317,10 +355,10 @@ class _MovimentacoesState extends State<Movimentacoes> {
                     ),
                   ),
                 ),
-                actionsPadding: EdgeInsets.fromLTRB(20, 0, 20, 10),
+                actionsPadding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
                 actions: [
                   ElevatedButton(
-                    child: Text(
+                    child: const Text(
                       "salvar",
                       style: TextStyle(color: Colors.white),
                     ),
@@ -359,12 +397,13 @@ class _MovimentacoesState extends State<Movimentacoes> {
                           MovimentacaoController().atualizar(context, docId, t);
                         }
                         Navigator.of(context).pop(); // Fecha o diálogo
+                        _atualizarFiltro(); // Atualiza lista após salvar
                       } else {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Stack(
+                              title: const Stack(
                                 children: [
                                   Align(
                                     alignment: Alignment.centerLeft,
@@ -375,10 +414,6 @@ class _MovimentacoesState extends State<Movimentacoes> {
                               content: Text(erro),
                               actions: [
                                 ElevatedButton(
-                                  child: Text(
-                                    "OK",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor:
                                         Colors.red, // Cor do botão de exclusão
@@ -387,6 +422,10 @@ class _MovimentacoesState extends State<Movimentacoes> {
                                     Navigator.of(context)
                                         .pop(); // Fecha o diálogo após a exclusão
                                   },
+                                  child: const Text(
+                                    "OK",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 ),
                               ],
                             );
@@ -411,14 +450,14 @@ class _MovimentacoesState extends State<Movimentacoes> {
         return AlertDialog(
           title: Stack(
             children: [
-              Align(
+              const Align(
                 alignment: Alignment.centerLeft,
                 child: Text("Confirmar exclusão"),
               ),
               Align(
                 alignment: Alignment.topRight,
                 child: IconButton(
-                  icon: Icon(Icons.close),
+                  icon: const Icon(Icons.close),
                   onPressed: () {
                     Navigator.of(context).pop(); // Fecha o diálogo
                   },
@@ -426,13 +465,9 @@ class _MovimentacoesState extends State<Movimentacoes> {
               ),
             ],
           ),
-          content: Text("Tem certeza que deseja excluir esta movimentação?"),
+          content: const Text("Tem certeza que deseja excluir esta movimentação?"),
           actions: [
             ElevatedButton(
-              child: Text(
-                "Excluir",
-                style: TextStyle(color: Colors.white),
-              ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red, // Cor do botão de exclusão
               ),
@@ -440,7 +475,12 @@ class _MovimentacoesState extends State<Movimentacoes> {
                 // Função para excluir a movimentação
                 MovimentacaoController().excluir(context, docId);
                 Navigator.of(context).pop(); // Fecha o diálogo após a exclusão
+                _atualizarFiltro(); // Atualiza lista após exclusão
               },
+              child: const Text(
+                "Excluir",
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         );
@@ -453,88 +493,140 @@ class _MovimentacoesState extends State<Movimentacoes> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: StreamBuilder<QuerySnapshot>(
-          stream: MovimentacaoController().listar().snapshots(),
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.none:
-                return Center(
-                  child: Text('Não foi possível conectar.'),
-                );
-              case ConnectionState.waiting:
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              default:
-                final dados = snapshot.requireData;
-                if (dados.size > 0) {
-                  return ListView.builder(
-                    itemCount: dados.size,
-                    itemBuilder: (context, index) {
-                      String id = dados.docs[index].id;
-                      dynamic item = dados.docs[index].data();
-                      return Card(
-                        child: ListTile(
-                          leading: item['tipo'] == "GASTO"
-                              ? Icon(Icons.keyboard_double_arrow_down,
-                                  color: Colors.red)
-                              : Icon(Icons.keyboard_double_arrow_up,
-                                  color: Colors.green),
-                          title: Text(
-                            'R\$' +
-                                item['valor'].toString() +
-                                ' - ' +
-                                item['categoria'],
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 17),
-                          ),
-                          subtitle: Text(item['descricao'],
+        child: Column(
+          children: [
+            // FILTROS DE MÊS E ANO
+            Row(
+              children: [
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    value: selectedMonth,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedMonth = newValue!;
+                      });
+                    },
+                    items: months.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value[0].toUpperCase() + value.substring(1)),
+                      );
+                    }).toList(),
+                    decoration: const InputDecoration(
+                      labelText: 'Mês',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    value: selectedYear,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedYear = newValue!;
+                      });
+                    },
+                    items: List<String>.generate(4, (index) {
+                      int year = DateTime.now().year - index;
+                      return year.toString();
+                    }).map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    decoration: const InputDecoration(
+                      labelText: 'Ano',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: _atualizarFiltro,
+                  tooltip: 'Filtrar',
+                )
+              ],
+            ),
+            const SizedBox(height: 20),
+            // LISTAGEM DAS MOVIMENTAÇÕES
+            Expanded(
+              child: FutureBuilder<List<Map<String, dynamic>>>(
+                future: futureMovimentacoes,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(
+                        child: Text('Erro ao carregar movimentações: ${snapshot.error}'));
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        'Você ainda não cadastrou nenhuma movimentação para esse período.\nClique no "+" para adicionar um gasto ou um ganho.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    );
+                  } else {
+                    final dados = snapshot.data!;
+                    return ListView.builder(
+                      itemCount: dados.length,
+                      itemBuilder: (context, index) {
+                        final item = dados[index];
+                        return Card(
+                          child: ListTile(
+                            leading: item['tipo'] == "GASTO"
+                                ? const Icon(Icons.keyboard_double_arrow_down,
+                                    color: Colors.red)
+                                : const Icon(Icons.keyboard_double_arrow_up,
+                                    color: Colors.green),
+                            title: Text(
+                              'R\$${item['valor']} - ' + item['categoria'],
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 17)),
-                          trailing: IconButton(
-                            icon: Icon(Icons.delete,
-                                color: Color.fromARGB(255, 247, 99, 89)),
-                            onPressed: () {
-                              confirmarExclusao(context,
-                                  id); // Função para confirmar a exclusão
+                              style: const TextStyle(fontSize: 17),
+                            ),
+                            subtitle: Text(item['descricao'],
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(fontSize: 17)),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.delete,
+                                  color: Color.fromARGB(255, 247, 99, 89)),
+                              onPressed: () {
+                                confirmarExclusao(context, item['docId'] ?? '');
+                              },
+                            ),
+                            onTap: () {
+                              txtTitulo.text = item['categoria'];
+                              txtDescricao.text = item['descricao'];
+                              adicionarMovimentacao(context,
+                                  docId: item['docId'], movimentacao: item);
+                            },
+                            onLongPress: () {
+                              MovimentacaoController()
+                                  .excluir(context, item['docId'] ?? '');
+                              _atualizarFiltro();
                             },
                           ),
-                          onTap: () {
-                            txtTitulo.text = item['categoria'];
-                            txtDescricao.text = item['descricao'];
-                            adicionarMovimentacao(context,
-                                docId: id, movimentacao: item);
-                          },
-                          onLongPress: () {
-                            MovimentacaoController().excluir(context, id);
-                          },
-                        ),
-                      );
-                    },
-                  );
-                } else {
-                  return Center(
-                    child: Text(
-                      'Você ainda não cadastrou nenhuma movimentação. \nClique no "+" para adicionar um gasto ou um ganho.',
-                      textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                  );
-                }
-            }
-          },
+                        );
+                      },
+                    );
+                  }
+                },
+              ),
+            ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           adicionarMovimentacao(context);
         },
-        child: Icon(
+        backgroundColor: kPrimaryColor,
+        child: const Icon(
           Icons.add,
           color: Colors.white,
         ),
-        backgroundColor: kPrimaryColor,
       ),
     );
   }

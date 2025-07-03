@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/Welcome/welcome_screen.dart';
 import 'package:flutter_auth/controller/login_controller.dart';
@@ -22,10 +21,10 @@ class ForgotPasswordForm extends StatelessWidget {
             textInputAction: TextInputAction.next,
             cursorColor: kPrimaryColor,
             onSaved: (email) {},
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "Seu email",
               prefixIcon: Padding(
-                padding: const EdgeInsets.all(defaultPadding),
+                padding: EdgeInsets.all(defaultPadding),
                 child: Icon(Icons.email),
               ),
             ),
@@ -39,14 +38,14 @@ class ForgotPasswordForm extends StatelessWidget {
               },
               child: Text(
                 "Enviar".toUpperCase(),
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: defaultPadding),
             child: TextButton(
-              child: Text(
+              child: const Text(
                 "Voltar ao início",
                 style: TextStyle(color: kPrimaryColor),
               ),

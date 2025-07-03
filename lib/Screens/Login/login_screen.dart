@@ -13,10 +13,10 @@ class LoginScreen extends StatelessWidget {
     return Background(
       child: SingleChildScrollView(
         child: Responsive(
-          mobile: MobileLoginScreen(),
+          mobile: const MobileLoginScreen(),
           desktop: Row(
             children: [
-              Expanded(
+              const Expanded(
                 child: LoginScreenTopImage(),
               ),
               Expanded(
@@ -48,15 +48,15 @@ class MobileLoginScreen extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        LoginScreenTopImage(),
+        const LoginScreenTopImage(),
         Row(
           children: [
-            Spacer(),
+            const Spacer(),
             Expanded(
               flex: 8,
               child: SingleChildScrollView(child: LoginForm()),
             ),
-            Spacer(),
+            const Spacer(),
           ],
         ),
       ],

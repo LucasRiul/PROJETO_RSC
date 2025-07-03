@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_auth/constants.dart';
-import 'package:flutter_auth/controller/login_controller.dart';
 import 'package:flutter_auth/controller/movimentacao_controller.dart';
 import 'package:intl/intl.dart'; // Para pegar o mês e ano atual
 import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class Dashboard extends StatefulWidget {
+  const Dashboard({super.key});
+
   @override
   _DashboardState createState() => _DashboardState();
 }
@@ -157,13 +157,13 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
               labelColor: kPrimaryColor,
               indicatorColor: kPrimaryColor,
               unselectedLabelColor: Colors.grey,
-              tabs: [
+              tabs: const [
                 Tab(text: 'Gastos'),
                 Tab(text: 'Ganhos'),
                 Tab(text: 'Total'),
               ],
             ),
-            Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 20)),
+            const Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 20)),
 
             // Dropdowns para selecionar mês e ano
             Row(
@@ -186,7 +186,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                     }).toList(),
                   ),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                   child: DropdownButtonFormField<String>(
                     value: selectedYear,
@@ -208,7 +208,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.search),
+                  icon: const Icon(Icons.search),
                   onPressed: _atualizarFiltro, // Atualiza a lista ao clicar
                 ),
               ],
@@ -218,11 +218,11 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 future: futureMovimentacoes,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
-                    return Center(child: Text('Erro ao carregar dados'));
+                    return const Center(child: Text('Erro ao carregar dados'));
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(
+                    return const Center(
                         child: Text(
                       'Você ainda não cadastrou nenhuma movimentação neste período.\n Vá para a página de "Movimentações" adicionar gastos e ganhos e depois retorne aqui.',
                       textAlign: TextAlign.center,
@@ -259,7 +259,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                         // Tab de Gastos
                         Column(
                           children: [
-                            Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
+                            const Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
                             SizedBox(
                               height: 28,
                               child: Text(
@@ -276,7 +276,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                     flex: 2,
                                     child: PieChart(
                                       swapAnimationDuration:
-                                          Duration(milliseconds: 150),
+                                          const Duration(milliseconds: 150),
                                       swapAnimationCurve: Curves.linear,
                                       PieChartData(
                                         centerSpaceRadius: 65,
@@ -303,10 +303,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                                       .replaceAll(',', '.')))
                                               .reduce((a, b) => a + b);
                                           final percentualCatgoria =
-                                              ((total / totalGastos) * 100)
+                                              "${((total / totalGastos) * 100)
                                                       .toStringAsFixed(2)
-                                                      .replaceAll('.', ',') +
-                                                  "%";
+                                                      .replaceAll('.', ',')}%";
                                           return PieChartSectionData(
                                             value: total,
                                             badgeWidget: !isTouched
@@ -337,7 +336,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                       ),
                                     ),
                                   )
-                                : Text(''),
+                                : const Text(''),
 
                             // Lista de categorias de Gastos
                             categoriasGastos.isNotEmpty
@@ -361,24 +360,24 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                             ),
                                             title: Text(
                                               categoria,
-                                              style: TextStyle(fontSize: 17),
+                                              style: const TextStyle(fontSize: 17),
                                             ),
                                             trailing: Text(
                                               'R\$ ${total.toStringAsFixed(2)}',
-                                              style: TextStyle(fontSize: 17),
+                                              style: const TextStyle(fontSize: 17),
                                             ),
                                           ),
                                         );
                                       },
                                     ),
                                   )
-                                : Text(''),
+                                : const Text(''),
                           ],
                         ),
                         // Tab de Ganhos
                         Column(
                           children: [
-                            Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
+                            const Padding(padding: EdgeInsets.fromLTRB(0, 10, 0, 0)),
                             SizedBox(
                               height: 28,
                               child: Text(
@@ -395,7 +394,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                     flex: 2,
                                     child: PieChart(
                                       swapAnimationDuration:
-                                          Duration(milliseconds: 150),
+                                          const Duration(milliseconds: 150),
                                       swapAnimationCurve: Curves.linear,
                                       PieChartData(
                                         centerSpaceRadius: 65,
@@ -424,10 +423,9 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                           final isTouched2 =
                                               _touchedIndex2 == i2;
                                           final percentualCatgoria =
-                                              ((total / totalGanhos) * 100)
+                                              "${((total / totalGanhos) * 100)
                                                       .toStringAsFixed(2)
-                                                      .replaceAll('.', ',') +
-                                                  "%";
+                                                      .replaceAll('.', ',')}%";
                                           return PieChartSectionData(
                                             value: total,
                                             badgeWidget: !isTouched2
@@ -453,7 +451,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                       ),
                                     ),
                                   )
-                                : Text(''),
+                                : const Text(''),
 
                             // Lista de categorias de Ganhos
                             categoriasGanhos.isNotEmpty
@@ -477,18 +475,18 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                                             ),
                                             title: Text(
                                               categoria,
-                                              style: TextStyle(fontSize: 17),
+                                              style: const TextStyle(fontSize: 17),
                                             ),
                                             trailing: Text(
                                               'R\$ ${total.toStringAsFixed(2)}',
-                                              style: TextStyle(fontSize: 17),
+                                              style: const TextStyle(fontSize: 17),
                                             ),
                                           ),
                                         );
                                       },
                                     ),
                                   )
-                                : Text(''),
+                                : const Text(''),
                           ],
                         ),
                         // Tab do Totalizador
@@ -499,7 +497,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                               Text(
                                 "Total $selectedMonth/$selectedYear",
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 30,
                                     color: Colors.black87),
@@ -507,7 +505,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                               TweenAnimationBuilder(
                                 tween: Tween<double>(
                                     begin: 0, end: (totalGanhos - totalGastos)),
-                                duration: Duration(seconds: 2),
+                                duration: const Duration(seconds: 2),
                                 builder: (context, value, child) {
                                   return Text(
                                     ' R\$ ${double.parse(value.toString()).toStringAsFixed(2).replaceAll('.', ',')}',

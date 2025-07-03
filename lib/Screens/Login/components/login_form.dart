@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/Screens/Welcome/welcome_screen.dart';
-import 'package:flutter_auth/Screens/view/TelaPrincipal/tela_principal.dart';
 import 'package:flutter_auth/controller/login_controller.dart';
 
 import '../../../components/already_have_an_account_acheck.dart';
@@ -60,7 +58,7 @@ class LoginForm extends StatelessWidget {
               },
               child: Text(
                 "Entrar".toUpperCase(),
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ),
