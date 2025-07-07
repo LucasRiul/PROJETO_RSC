@@ -29,7 +29,7 @@ class MovimentacaoController {
   Future<List<Map<String, dynamic>>> listarComFiltro(
       String mes, String ano) async {
     mes = _converterMes(mes);
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+    final querySnapshot = await FirebaseFirestore.instance
         .collection('movimentacao')
         .where('uid', isEqualTo: LoginController().idUsuario())
         .where('mes', isEqualTo: mes)
@@ -39,9 +39,11 @@ class MovimentacaoController {
     if (querySnapshot.docs.isEmpty) {
       return []; // Retorna uma lista vazia se não houver dados
     } else {
-      return querySnapshot.docs
-          .map((doc) => doc.data() as Map<String, dynamic>)
-          .toList();
+      return querySnapshot.docs.map<Map<String, dynamic>>((doc) {
+        final data = doc.data();
+        data['docId'] = doc.id;
+        return data;
+      }).toList();
     }
   }
 

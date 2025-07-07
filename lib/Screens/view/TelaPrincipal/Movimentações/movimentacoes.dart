@@ -11,6 +11,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../../util.dart' as util;
+import 'package:intl/intl.dart'; // Para pegar o mês e ano atual
 
 class Movimentacoes extends StatefulWidget {
   const Movimentacoes({super.key});
@@ -32,10 +33,40 @@ class _MovimentacoesState extends State<Movimentacoes> {
   List<dynamic> categorias = [];
   String? categoriaSelecionada;
 
+  String selectedMonth =
+      DateFormat.MMMM('pt_BR').format(DateTime.now()).toLowerCase();
+  String selectedYear = DateTime.now().year.toString(); // Ano atual
+  Future<List<Map<String, dynamic>>>? futureMovimentacoes;
+
+  List<String> months = [
+    'janeiro',
+    'fevereiro',
+    'março',
+    'abril',
+    'maio',
+    'junho',
+    'julho',
+    'agosto',
+    'setembro',
+    'outubro',
+    'novembro',
+    'dezembro'
+  ];
+
   @override
   void initState() {
     super.initState();
+    futureMovimentacoes =
+        MovimentacaoController().listarComFiltro(selectedMonth, selectedYear);
+
     carregarCategorias(); // Carregar categorias uma vez no início
+  }
+
+  void _atualizarFiltro() {
+    setState(() {
+      futureMovimentacoes =
+          MovimentacaoController().listarComFiltro(selectedMonth, selectedYear);
+    });
   }
 
   // Carregar dados do JSON
@@ -453,77 +484,138 @@ class _MovimentacoesState extends State<Movimentacoes> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: StreamBuilder<QuerySnapshot>(
-          stream: MovimentacaoController().listar().snapshots(),
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.none:
-                return Center(
-                  child: Text('Não foi possível conectar.'),
-                );
-              case ConnectionState.waiting:
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              default:
-                final dados = snapshot.requireData;
-                if (dados.size > 0) {
-                  return ListView.builder(
-                    itemCount: dados.size,
-                    itemBuilder: (context, index) {
-                      String id = dados.docs[index].id;
-                      dynamic item = dados.docs[index].data();
-                      return Card(
-                        child: ListTile(
-                          leading: item['tipo'] == "GASTO"
-                              ? Icon(Icons.keyboard_double_arrow_down,
-                                  color: Colors.red)
-                              : Icon(Icons.keyboard_double_arrow_up,
-                                  color: Colors.green),
-                          title: Text(
-                            'R\$' +
-                                item['valor'].toString() +
-                                ' - ' +
-                                item['categoria'],
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 17),
-                          ),
-                          subtitle: Text(item['descricao'],
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 17)),
-                          trailing: IconButton(
-                            icon: Icon(Icons.delete,
-                                color: Color.fromARGB(255, 247, 99, 89)),
-                            onPressed: () {
-                              confirmarExclusao(context,
-                                  id); // Função para confirmar a exclusão
-                            },
-                          ),
-                          onTap: () {
-                            txtTitulo.text = item['categoria'];
-                            txtDescricao.text = item['descricao'];
-                            adicionarMovimentacao(context,
-                                docId: id, movimentacao: item);
-                          },
-                          onLongPress: () {
-                            MovimentacaoController().excluir(context, id);
-                          },
-                        ),
-                      );
+        child: Column(
+          children: [
+            // Dropdowns para selecionar mês e ano
+            Row(
+              children: [
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    value: selectedMonth,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedMonth = newValue!;
+                        _atualizarFiltro();
+                      });
                     },
-                  );
-                } else {
-                  return Center(
-                    child: Text(
-                      'Você ainda não cadastrou nenhuma movimentação. \nClique no "+" para adicionar um gasto ou um ganho.',
-                      textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                  );
-                }
-            }
-          },
+                    items: months.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child:
+                            Text(value[0].toUpperCase() + value.substring(1)),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    value: selectedYear,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedYear = newValue!;
+                        _atualizarFiltro();
+                      });
+                    },
+                    items: List<String>.generate(4, (index) {
+                      int year = DateTime.now().year - index;
+                      return year.toString();
+                    }).map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: _atualizarFiltro, // Atualiza a lista ao clicar
+                ),
+              ],
+            ),
+            Expanded(
+              child: FutureBuilder<List<Map<String, dynamic>>>(
+                future: futureMovimentacoes,
+                builder: (context, snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none:
+                      return Center(
+                        child: Text('Não foi possível conectar.'),
+                      );
+                    case ConnectionState.waiting:
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    default:
+                      final dados = snapshot.data!;
+                      if (snapshot.hasError) {
+                        return Center(child: Text('Erro: ${snapshot.error}'));
+                      }
+                      if (dados.isNotEmpty) {
+                        return ListView.builder(
+                          itemCount: dados.length,
+                          itemBuilder: (context, index) {
+                            // String id = dados.docs[index].id;
+                            dynamic item = dados[index];
+                            return Card(
+                              child: ListTile(
+                                leading: item['tipo'] == "GASTO"
+                                    ? Icon(Icons.keyboard_double_arrow_down,
+                                        color: Colors.red)
+                                    : Icon(Icons.keyboard_double_arrow_up,
+                                        color: Colors.green),
+                                title: Text(
+                                  'R\$' +
+                                      item['valor'].toString() +
+                                      ' - ' +
+                                      item['categoria'],
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                subtitle: Text(item['descricao'],
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(fontSize: 17)),
+                                trailing: IconButton(
+                                  icon: Icon(Icons.delete,
+                                      color: Color.fromARGB(255, 247, 99, 89)),
+                                  onPressed: () {
+                                    confirmarExclusao(
+                                        context,
+                                        item[
+                                            'docId']); // Função para confirmar a exclusão
+                                  },
+                                ),
+                                onTap: () {
+                                  txtTitulo.text = item['categoria'];
+                                  txtDescricao.text = item['descricao'];
+
+                                  adicionarMovimentacao(context,
+                                      docId: item['docId'], movimentacao: item);
+                                },
+                                onLongPress: () {
+                                  MovimentacaoController()
+                                      .excluir(context, item['docId']);
+                                },
+                              ),
+                            );
+                          },
+                        );
+                      } else {
+                        return Center(
+                          child: Text(
+                            'Você ainda não cadastrou nenhuma movimentação. \nClique no "+" para adicionar um gasto ou um ganho.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                        );
+                      }
+                  }
+                },
+              ),
+            ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
